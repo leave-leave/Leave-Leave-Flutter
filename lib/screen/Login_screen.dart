@@ -25,8 +25,8 @@ class LoginScreen extends StatelessWidget {
           SizedBox(height: 75), // 이미지와 텍스트 필드 사이의 여백
 
           Container(
-            width: 300,
-            height: 35,
+            width: 337,
+            height: 42,
             child: TextField(
               style: TextStyle(
                 fontSize: 12,
@@ -48,8 +48,8 @@ class LoginScreen extends StatelessWidget {
           ),
           SizedBox(height: 16,),
           Container(
-            width: 300,
-            height: 35,
+            width: 337,
+            height: 42,
             child: TextField(
               style: TextStyle(
                 fontSize: 12,
@@ -70,10 +70,9 @@ class LoginScreen extends StatelessWidget {
             ),
           ),
 
-          Spacer(),
-
+          SizedBox(height: 343),
           Container(
-            width: 300,
+            width: 337,
             height: 40,
             child: TextButton(
               onPressed: () {},
