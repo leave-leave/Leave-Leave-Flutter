@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'signup2.dart';
 
 class SignupScreen extends StatelessWidget {
   static const Color blueColor = Color(0xff2A59FF);
@@ -15,11 +16,11 @@ class SignupScreen extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
-          SizedBox(height: 112),
+          SizedBox(height: 120),
           Center(
             child: Image.asset('assets/images/Signup.png'),
           ),
-          SizedBox(height: 87),
+          SizedBox(height: 55),
           Row(
             children: [
               SizedBox(width: 35), // 조절 가능한 왼쪽 여백
@@ -35,8 +36,8 @@ class SignupScreen extends StatelessWidget {
           ),
           SizedBox(height: 4), // 라벨과 TextField 간의 간격 조절
           Container(
-            width: 300,
-            height: 35,
+            width: 349,
+            height: 36,
             child: TextField(
               style: TextStyle(
                 fontSize: 12,
@@ -56,7 +57,7 @@ class SignupScreen extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 13),
+          SizedBox(height: 14),
           Row(
             children: [
               SizedBox(width: 35), // 조절 가능한 왼쪽 여백
@@ -72,8 +73,8 @@ class SignupScreen extends StatelessWidget {
           ),
           SizedBox(height: 4), // 라벨과 TextField 간의 간격 조절
           Container(
-            width: 284.4,
-            height: 102.4,
+            width: 349,
+            height: 36,
             child: Row(
               children: [
                 Expanded(
@@ -99,29 +100,33 @@ class SignupScreen extends StatelessWidget {
                 SizedBox(width: 4), // 조절 가능한 간격
                 GestureDetector(
                   onTap: () {
-                    // 인증번호 버튼이 클릭되었을 때 수행할 작업 추가
-                    print('인증번호 버튼 클릭');
                   },
                   child: Container(
-                    width: 114.4,
-                    height: 35,
+                    width: 73,
+                    height: 36,
                     decoration: BoxDecoration(
                       color: blueColor,
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: Text(
-                      '인증 번호',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontFamily: "Noto Sans KR",
-                        color: Colors.white,
-                      ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          '인증 번호',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontFamily: "Noto Sans KR",
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ],
             ),
           ),
+          SizedBox(height: 13),
           Row(
             children: [
               SizedBox(width: 35), // 조절 가능한 왼쪽 여백
@@ -137,8 +142,8 @@ class SignupScreen extends StatelessWidget {
           ),
           SizedBox(height: 4), // 라벨과 TextField 간의 간격 조절
           Container(
-            width: 351.4,
-            height: 102.4,
+            width: 349,
+            height: 36,
             child: TextField(
               style: TextStyle(
                 fontSize: 12,
@@ -158,12 +163,16 @@ class SignupScreen extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 169,),
+          SizedBox(height: 225),
           Container(
-            width: 300,
+            width: 337,
             height: 40,
             child: TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SignupScreen2()),
+              );},
               child: Text(
                 '다음',
                 style: TextStyle(
@@ -178,7 +187,6 @@ class SignupScreen extends StatelessWidget {
               ),
             ),
           ),
-
         ],
       ),
     );
