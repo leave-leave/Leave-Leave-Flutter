@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'Login_screen.dart';
-import 'signup.dart';
-import 'main_screen.dart';
+import 'signup1.dart';
 
 class Screen extends StatelessWidget {
   const Screen({Key? key}) : super(key: key);
@@ -24,14 +23,14 @@ class Screen extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 50.0),
             child: Container(
-              width: 260,
+              width: 337,
               height: 40,
               child: TextButton(
                 onPressed: () {
                   // 로그인 버튼 클릭 시 다음 화면으로 이동
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => MainScreen()),
+                    MaterialPageRoute(builder: (context) => LoginScreen()),
                   );
                 },
                 child: Text(
@@ -49,11 +48,11 @@ class Screen extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 20.0), // 버튼 간격 조절
+          SizedBox(height: 12), // 버튼 간격 조절
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 50.0),
             child: Container(
-              width: 260,
+              width: 337,
               height: 40,
               child: TextButton(
                 onPressed: () {
