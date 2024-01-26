@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'signup_complete_screen.dart';
 
 class SignupScreen2 extends StatelessWidget {
   static const Color blueColor = Color(0xff2A59FF);
@@ -19,7 +20,40 @@ class SignupScreen2 extends StatelessWidget {
           Center(
             child: Image.asset('assets/images/Signup.png'),
           ),
-          SizedBox(height: 55),
+          SizedBox(height: 19),
+          Row(
+            children: [
+              SizedBox(width: 358),
+              Text.rich(
+                TextSpan(
+                  children: [
+                    TextSpan(
+                      text: '2',
+                      style: TextStyle(
+                        color: Color(0xFF2A59FF),
+                        fontSize: 12,
+                        fontFamily: 'Noto Sans KR',
+                        fontWeight: FontWeight.w700,
+                        height: 0,
+                      ),
+                    ),
+                    TextSpan(
+                      text: '/2',
+                      style: TextStyle(
+                        color: Color(0xFF333333),
+                        fontSize: 12,
+                        fontFamily: 'Noto Sans KR',
+                        fontWeight: FontWeight.w700,
+                        height: 0,
+                      ),
+                    ),
+                  ],
+                ),
+                textAlign: TextAlign.right,
+              ),
+            ],
+          ),
+          SizedBox(height: 19),
           Row(
             children: [
               SizedBox(width: 35), // 조절 가능한 왼쪽 여백
@@ -36,7 +70,7 @@ class SignupScreen2 extends StatelessWidget {
           SizedBox(height: 4), // 라벨과 TextField 간의 간격 조절
           Container(
             width: 349,
-            height: 36,
+            height: 35,
             child: Row(
               children: [
                 Expanded(
@@ -60,28 +94,26 @@ class SignupScreen2 extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: 4), // 조절 가능한 간격
-                GestureDetector(
-                  onTap: () {
+                TextButton(
+                  onPressed: () {
+                    // 여기에 기존의 onTap 로직을 넣으세요
                   },
+                  style: TextButton.styleFrom(
+                    backgroundColor: blueColor,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                  ),
                   child: Container(
                     width: 65,
-                    height: 37,
-                    decoration: BoxDecoration(
-                      color: blueColor,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '중복 확인',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontFamily: "Noto Sans KR",
-                            color: Colors.white,
-                          ),
+                    height: 35,
+                    child: Center(
+                      child: Text(
+                        '중복 확인',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontFamily: "Noto Sans KR",
+                          color: Colors.white,
                         ),
-                      ],
+                      ),
                     ),
                   ),
                 ),
@@ -106,11 +138,12 @@ class SignupScreen2 extends StatelessWidget {
           SizedBox(height: 4), // 라벨과 TextField 간의 간격 조절
           Container(
             width: 349,
-            height: 36,
+            height: 35,
             child: Row(
               children: [
                 Expanded(
                   child: TextField(
+                    obscureText: true,
                     style: TextStyle(
                       fontSize: 12,
                     ),
@@ -150,8 +183,9 @@ class SignupScreen2 extends StatelessWidget {
           SizedBox(height: 4), // 라벨과 TextField 간의 간격 조절
           Container(
             width: 349,
-            height: 36,
+            height: 35,
             child: TextField(
+              obscureText: true,
               style: TextStyle(
                 fontSize: 12,
               ),
@@ -170,12 +204,16 @@ class SignupScreen2 extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 225),
+          SizedBox(height: 198),
           Container(
             width: 337,
             height: 40,
             child: TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => complete()),
+                );},
               child: Text(
                 '회원가입',
                 style: TextStyle(

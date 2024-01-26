@@ -20,7 +20,40 @@ class SignupScreen extends StatelessWidget {
           Center(
             child: Image.asset('assets/images/Signup.png'),
           ),
-          SizedBox(height: 55),
+          SizedBox(height: 19),
+          Row(
+            children: [
+              SizedBox(width: 358),
+              Text.rich(
+                TextSpan(
+                  children: [
+                    TextSpan(
+                      text: '1',
+                      style: TextStyle(
+                        color: Color(0xFF2A59FF),
+                        fontSize: 12,
+                        fontFamily: 'Noto Sans KR',
+                        fontWeight: FontWeight.w700,
+                        height: 0,
+                      ),
+                    ),
+                    TextSpan(
+                      text: '/2',
+                      style: TextStyle(
+                        color: Color(0xFF333333),
+                        fontSize: 12,
+                        fontFamily: 'Noto Sans KR',
+                        fontWeight: FontWeight.w700,
+                        height: 0,
+                      ),
+                    ),
+                  ],
+                ),
+                textAlign: TextAlign.right,
+              ),
+            ],
+          ),
+          SizedBox(height: 19,),
           Row(
             children: [
               SizedBox(width: 35), // 조절 가능한 왼쪽 여백
@@ -98,28 +131,26 @@ class SignupScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: 4), // 조절 가능한 간격
-                GestureDetector(
-                  onTap: () {
+                TextButton(
+                  onPressed: () {
+                    // 여기에 기존의 onTap 로직을 넣으세요
                   },
+                  style: TextButton.styleFrom(
+                    backgroundColor: blueColor,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                  ),
                   child: Container(
-                    width: 73,
-                    height: 36,
-                    decoration: BoxDecoration(
-                      color: blueColor,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '인증 번호',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontFamily: "Noto Sans KR",
-                            color: Colors.white,
-                          ),
+                    width: 65,
+                    height: 35,
+                    child: Center(
+                      child: Text(
+                        '인증 번호',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontFamily: "Noto Sans KR",
+                          color: Colors.white,
                         ),
-                      ],
+                      ),
                     ),
                   ),
                 ),
