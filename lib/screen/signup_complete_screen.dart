@@ -7,7 +7,7 @@ class complete extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(Duration(seconds: 1), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => MainScreen()),
