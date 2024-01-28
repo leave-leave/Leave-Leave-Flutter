@@ -121,7 +121,7 @@ class SignupScreen2 extends StatelessWidget {
             ),
           ),
 
-          SizedBox(height: 30),
+          SizedBox(height: 32),
           Row(
             children: [
               SizedBox(width: 35), // 조절 가능한 왼쪽 여백
@@ -166,7 +166,7 @@ class SignupScreen2 extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: 13),
+          SizedBox(height: 19),
           Row(
             children: [
               SizedBox(width: 35), // 조절 가능한 왼쪽 여백

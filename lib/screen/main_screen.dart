@@ -110,34 +110,37 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        showUnselectedLabels: false,
-        showSelectedLabels: false,
-        selectedItemColor: Color(0xff3792FD),
-        unselectedItemColor: Color(0xff616161),
-        items: [
-          BottomNavigationBarItem(
-            label: '',
-            icon: Icon(Icons.home_filled),
-            activeIcon: Icon(Icons.home_filled),
-          ),
-          BottomNavigationBarItem(
-            label: '',
-            icon: Icon(Icons.feed),
-            activeIcon: Icon(Icons.feed),
-          ),
-          BottomNavigationBarItem(
-            label: '',
-            icon: Icon(Icons.thumb_up_off_alt),
-            activeIcon: Icon(Icons.thumb_up_off_alt),
-          ),
-          BottomNavigationBarItem(
-            label: '',
-            icon: Icon(Icons.person),
-            activeIcon: Icon(Icons.person),
-          ),
-        ],
+      bottomNavigationBar: ClipRRect(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+        child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          showUnselectedLabels: false,
+          showSelectedLabels: false,
+          selectedItemColor: Color(0xff3792FD),
+          unselectedItemColor: Color(0xff616161),
+          items: [
+            BottomNavigationBarItem(
+              label: '',
+              icon: Icon(Icons.home_filled),
+              activeIcon: Icon(Icons.home_filled),
+            ),
+            BottomNavigationBarItem(
+              label: '',
+              icon: Icon(Icons.feed),
+              activeIcon: Icon(Icons.feed),
+            ),
+            BottomNavigationBarItem(
+              label: '',
+              icon: Icon(Icons.thumb_up_off_alt),
+              activeIcon: Icon(Icons.thumb_up_off_alt),
+            ),
+            BottomNavigationBarItem(
+              label: '',
+              icon: Icon(Icons.person),
+              activeIcon: Icon(Icons.person),
+            ),
+          ],
+        ),
       ),
     );
   }
