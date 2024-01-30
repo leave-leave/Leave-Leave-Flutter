@@ -9,7 +9,8 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  var state = 0;
+
+  int current_index = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -111,8 +112,15 @@ class _MainScreenState extends State<MainScreen> {
         ],
       ),
       bottomNavigationBar: ClipRRect(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
         child: BottomNavigationBar(
+          currentIndex: current_index,
+          onTap: (index) {
+            print('index test : ${index}');
+            setState(() {
+              current_index = index;
+            });
+          },
           type: BottomNavigationBarType.fixed,
           showUnselectedLabels: false,
           showSelectedLabels: false,
