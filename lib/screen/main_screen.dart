@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tteonatteona/screen/feed.dart';
-import 'package:tteonatteona/screen/home.dart';
 import 'package:tteonatteona/screen/mypage.dart';
+import 'package:tteonatteona/screen/home.dart';
+import 'package:tteonatteona/screen/post.dart';
 import 'package:tteonatteona/screen/suggestion.dart';
-
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -13,14 +12,13 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-
   int _selectedIndex = 0;
 
   final List<Widget> _navIndex = [
     home(),
-    mypage(),
-    suggestion(),
     post(),
+    suggestion(),
+    mypage(),
   ];
 
   void _onNavTapped(int index) {
@@ -32,7 +30,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _navIndex.elementAt(_selectedIndex),
+      body: _navIndex[_selectedIndex],
       bottomNavigationBar: ClipRRect(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
         child: BottomNavigationBar(
