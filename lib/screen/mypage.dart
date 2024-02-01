@@ -62,6 +62,11 @@ class _mypageState extends State<mypage> {
               ],
             ),
           ),
+          Row(
+            children: [
+              TextButton(onPressed: (){}, child: Text('여행 계획'),),
+            ],
+          ),
         ],
       ),
     );

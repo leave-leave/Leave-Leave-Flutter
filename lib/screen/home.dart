@@ -69,6 +69,23 @@ class _homeState extends State<home> {
               ),
             ),
           ),
+          SizedBox(height: 9),
+          Container(
+            width: 371,
+            height: 145,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: EdgeInsets.only(left: 85.0),
+                child: Image.asset('assets/images/location.png'),
+              ),
+            ),
+          ),
+          SizedBox(height: 23),
           Padding(
               padding: EdgeInsets.only(left: 20),
               child: Align(
