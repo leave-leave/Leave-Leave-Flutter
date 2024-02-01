@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tteonatteona/screen/main_screen.dart';
 
 class LoginScreen extends StatelessWidget {
 
@@ -75,18 +76,23 @@ class LoginScreen extends StatelessWidget {
             width: 337,
             height: 40,
             child: TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MainScreen()),
+                );
+              },
               child: Text(
                 '로그인',
                 style: TextStyle(
                   color: tteonatteonawhiteColor,
-                  fontFamily: 'NotoSansKR', // 폰트 변경
+                  fontFamily: 'NotoSansKR',
                 ),
               ),
               style: TextButton.styleFrom(
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
                 backgroundColor: blueColor,
-                padding: EdgeInsets.symmetric(horizontal: 50.0), // 패딩 추가
+                padding: EdgeInsets.symmetric(horizontal: 50.0),
               ),
             ),
           ),
