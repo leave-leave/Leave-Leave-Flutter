@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tteonatteona/screen/mypage.dart';
-import 'package:tteonatteona/screen/home.dart';
-import 'package:tteonatteona/screen/post.dart';
-import 'package:tteonatteona/screen/suggestion.dart';
+import 'package:tteonatteona/mypage/widget/mypage.dart';
+import 'package:tteonatteona/home/widget/home.dart';
+import 'package:tteonatteona/post/widget/post.dart';
+import 'package:tteonatteona/suggestion/suggestion.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -18,7 +18,7 @@ class _MainScreenState extends State<MainScreen> {
     home(),
     post(),
     suggestion(),
-    mypage(),
+    MyPage(),
   ];
 
   void _onNavTapped(int index) {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tteonatteona/screen/post.dart';
+import 'package:tteonatteona/post/widget/post.dart';
 
 class post_upload_complete extends StatelessWidget {
 

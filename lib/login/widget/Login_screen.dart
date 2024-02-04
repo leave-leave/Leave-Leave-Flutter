@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tteonatteona/screen/main_screen.dart';
+import 'package:tteonatteona/main/widget/main_screen.dart';
 
 class LoginScreen extends StatelessWidget {
 

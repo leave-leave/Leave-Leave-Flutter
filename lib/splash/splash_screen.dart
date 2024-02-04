@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'Login_screen.dart';
-import 'signup1.dart';
+import 'package:tteonatteona/login/widget/Login_screen.dart';
+import 'package:tteonatteona/sign_up/widget/signup1.dart';
 
 class Screen extends StatelessWidget {
   const Screen({Key? key}) : super(key: key);

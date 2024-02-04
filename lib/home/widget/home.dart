@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tteonatteona/screen/question_screen.dart';
+import 'package:tteonatteona/question/widget/question_screen.dart';
 
 class home extends StatefulWidget {
   const home({Key? key}) : super(key: key);
@@ -9,6 +9,7 @@ class home extends StatefulWidget {
 }
 
 class _homeState extends State<home> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -127,5 +128,10 @@ class _homeState extends State<home> {
       ),
     );
   }
-  
+
 }
+
+
+
+
+
