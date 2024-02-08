@@ -16,16 +16,10 @@ class _MainScreenState extends State<MainScreen> {
 
   final List<Widget> _navIndex = [
     home(),
-    post(),
+    Post(),
     suggestion(),
     MyPage(),
   ];
-
-  void _onNavTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,11 +29,7 @@ class _MainScreenState extends State<MainScreen> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
         child: BottomNavigationBar(
           currentIndex: _selectedIndex,
-          onTap: (index) {
-            setState(() {
-              _selectedIndex = index;
-            });
-          },
+          onTap: _onNavTapped,
           type: BottomNavigationBarType.fixed,
           showUnselectedLabels: false,
           showSelectedLabels: false,
@@ -70,5 +60,10 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ),
     );
+  }
+  void _onNavTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 }
