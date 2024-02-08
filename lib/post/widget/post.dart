@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:tteonatteona/home/widget/home.dart';
 import 'package:tteonatteona/post/widget/post_add.dart';
 
 
-class post extends StatefulWidget {
-  const post({Key? key}) : super(key: key);
+class Post extends StatefulWidget {
+  const Post({Key? key}) : super(key: key);
 
   @override
-  State<post> createState() => _postState();
+  State<Post> createState() => _postState();
 }
 
-class _postState extends State<post> {
+class _postState extends State<Post> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,15 +18,10 @@ class _postState extends State<post> {
       body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 24),
+            SizedBox(height: 30),
             Row(
               children: [
-                SizedBox(width: 10),
-                IconButton(
-                  onPressed: () {
-                  },
-                  icon: Icon(Icons.arrow_back, size: 20),
-                ),
+                SizedBox(width: 25),
                 Text(
                   '게시물',
                   style: TextStyle(
@@ -36,11 +32,11 @@ class _postState extends State<post> {
                   ),
                 ),
                 IconButton(
-                  padding: EdgeInsets.only(left: 271),
+                  padding: EdgeInsets.only(left: 295),
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => postadd()),
+                      MaterialPageRoute(builder: (context) => PostAdd()),
                     );
                   },
                   icon: Icon(Icons.add, size: 24),

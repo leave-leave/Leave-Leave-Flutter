@@ -10,6 +10,8 @@ class MyPage extends StatefulWidget {
 
 class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  bool hasPlans = true;
+  bool hasReactedPosts = true;
 
   @override
   void initState() {
@@ -74,7 +76,7 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
           Padding(
             padding: EdgeInsets.only(top: 10),
             child: PreferredSize(
-              preferredSize: Size.fromHeight(40), // 조절할 높이 설정
+              preferredSize: Size.fromHeight(40),
               child: TabBar(
                 controller: _tabController,
                 tabs: const [
@@ -102,8 +104,8 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
             child: TabBarView(
               controller: _tabController,
               children: [
-                buildTravelPlanWidget(),
-                buildReactedPostsWidget(),
+                hasPlans ? buildTravelPlanWidget() : buildNoPlansWidget(),
+                hasReactedPosts ? buildReactedPostsWidget() : buildNoReactedPostsWidget(),
               ],
             ),
           ),
@@ -124,7 +126,7 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
             height: 35,
             child: TextButton(
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => travelplane(),));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => TravelPlane()));
               },
               child: Text(
                 '계획 작성하기',
@@ -150,6 +152,34 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
     return Container(
       padding: EdgeInsets.all(16),
       child: Text('반응한 게시물 화면'),
+    );
+  }
+
+  Widget buildNoPlansWidget() {
+    return Center(
+      child: Text(
+        '여행 계획을 작성해 보실래요?',
+        style: TextStyle(
+          fontSize: 20,
+          color: Color(0xff83ACF9),
+          fontWeight: FontWeight.w600,
+          fontFamily: 'Noto Snas KR',
+        ),
+      ),
+    );
+  }
+
+  Widget buildNoReactedPostsWidget() {
+    return Center(
+      child: Text(
+        '반응한 게시물이 없습니다.',
+        style: TextStyle(
+          fontSize: 20,
+          color: Color(0xff83ACF9),
+          fontWeight: FontWeight.w600,
+          fontFamily: 'Noto Snas KR',
+        ),
+      ),
     );
   }
 }
