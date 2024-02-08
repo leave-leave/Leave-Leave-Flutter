@@ -11,7 +11,7 @@ class post_upload_complete extends StatelessWidget {
     Future.delayed(Duration(seconds: 2), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => post()),
+        MaterialPageRoute(builder: (context) => Post()),
       );
     });
 
