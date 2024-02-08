@@ -9,6 +9,7 @@ class home extends StatefulWidget {
 }
 
 class _homeState extends State<home> {
+  int itemCountToShow = 3;
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +57,12 @@ class _homeState extends State<home> {
               ],
             ),
           ),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: ChatList(),
+            ),
+          ),
           Padding(
             padding: EdgeInsets.only(left: 20),
             child: Align(
@@ -88,18 +95,18 @@ class _homeState extends State<home> {
           ),
           SizedBox(height: 23),
           Padding(
-              padding: EdgeInsets.only(left: 20),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  '설문 결과를 통해 여행지를 추천해 드려요',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    fontFamily: 'Noto sans KR',
-                  ),
+            padding: EdgeInsets.only(left: 20),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                '설문 결과를 통해 여행지를 추천해 드려요',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  fontFamily: 'Noto sans KR',
                 ),
-              )
+              ),
+            ),
           ),
           SizedBox(height: 7.32),
           Container(
@@ -110,7 +117,8 @@ class _homeState extends State<home> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => question()),
-                );},
+                );
+              },
               child: Text(
                 '질문 시작',
                 style: TextStyle(
@@ -128,10 +136,83 @@ class _homeState extends State<home> {
       ),
     );
   }
+}
 
+class ChatList extends StatefulWidget {
+  @override
+  _ChatListState createState() => _ChatListState();
+}
+
+class _ChatListState extends State<ChatList> {
+  int itemCountToShow = 3;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.separated(
+      padding: EdgeInsets.only(top: 0, bottom: 0),
+      itemCount: itemCountToShow,
+      separatorBuilder: (BuildContext context, int index) => Divider(height: 0),
+      itemBuilder: (context, index) {
+        return ChatItem(
+          Lank: '1',
+          TravelName: '일본 오사카',
+          Like: '1,456',
+        );
+      },
+    );
+  }
+
+  void showMoreItems() {
+    setState(() {
+      itemCountToShow = 15;
+    });
+  }
 }
 
 
+class ChatItem extends StatelessWidget {
 
+  final String Lank;
+  final String TravelName;
+  final String Like;
 
+  ChatItem({required this.TravelName, required this.Like, required this.Lank});
 
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 371,
+      height: 76,
+      margin: EdgeInsets.only(bottom: 12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            Lank,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: 5),
+          Text(
+            TravelName,
+            style: TextStyle(
+              color: Colors.grey[800],
+            ),
+          ),
+          SizedBox(height: 5),
+          Text(
+            Like,
+            style: TextStyle(
+              color: Colors.grey[600],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
