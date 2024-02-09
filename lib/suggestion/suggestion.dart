@@ -4,10 +4,12 @@ class suggestion extends StatefulWidget {
   const suggestion({Key? key}) : super(key: key);
 
   @override
-  State<suggestion> createState() => _suggestionState();
+  State<suggestion> createState() => _SuggestionState();
 }
 
-class _suggestionState extends State<suggestion> {
+class _SuggestionState extends State<suggestion> {
+
+  bool _isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,71 @@ class _suggestionState extends State<suggestion> {
             ),
           ),
           SizedBox(height: 20),
+          Expanded(
+            child: ListView.builder(
+              padding: EdgeInsets.only(top: 0, bottom: 0, left: 20, right: 20),
+              itemCount: 25,
+              itemBuilder: (context, index) {
+                return CustomListItem(index: index);
+              },
+            ),
+          ),
         ],
+      ),
+    );
+  }
+}
+
+class CustomListItem extends StatelessWidget {
+  final int index;
+
+  const CustomListItem({Key? key, required this.index}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 371,
+      height: 70,
+      margin: EdgeInsets.only(bottom: 15),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: ListTile(
+        leading: Container(
+          padding: EdgeInsets.only(left: 15),
+          child : Image.asset('assets/images/listimg.png'),
+        ),
+        title: Text('일본 오사카', style: TextStyle(
+          fontWeight: FontWeight.w500,
+          fontFamily: 'Noto Sans KR',
+          fontSize: 16,
+          color: Colors.black,
+        ),),
+        subtitle: RichText(
+          text: TextSpan(
+            text: '1,456',
+            style: TextStyle(
+              color: Color(0xff2A59FF),
+              fontWeight: FontWeight.w500,
+              fontFamily: "Noto Sans KR",
+              fontSize: 13,
+            ),
+            children: [
+              TextSpan(
+                text: '명이 좋아요 누른 여행지',
+                style: TextStyle(
+                  color: Color(0xff474747),
+                  fontWeight: FontWeight.w500,
+                  fontFamily: "Noto sans KR",
+                  fontSize: 13,
+                ),
+              ),
+            ],
+          ),
+        ),
+        onTap: () {
+        },
       ),
     );
   }
