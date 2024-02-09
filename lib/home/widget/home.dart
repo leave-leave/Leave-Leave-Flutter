@@ -9,7 +9,8 @@ class home extends StatefulWidget {
 }
 
 class _homeState extends State<home> {
-  int itemCountToShow = 3;
+
+  bool showAllItems = false;
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +43,13 @@ class _homeState extends State<home> {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    setState(() {
+                      showAllItems = !showAllItems;
+                    });
+                  },
                   child: Text(
-                    '더보기',
+                    showAllItems ? '간단히' : '더보기',
                     style: TextStyle(
                       color: Color(0xFF474747),
                       fontSize: 14,
@@ -57,12 +62,8 @@ class _homeState extends State<home> {
               ],
             ),
           ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: ChatList(),
-            ),
-          ),
+          ChatList(showAllItems : showAllItems),
+          SizedBox(height: 8),
           Padding(
             padding: EdgeInsets.only(left: 20),
             child: Align(
@@ -138,40 +139,39 @@ class _homeState extends State<home> {
   }
 }
 
+
 class ChatList extends StatefulWidget {
+
+  final bool showAllItems;
+
+  const ChatList({Key? key, required this.showAllItems}) : super(key: key);
+
   @override
-  _ChatListState createState() => _ChatListState();
+  State<ChatList> createState() => _ChatListState();
 }
 
 class _ChatListState extends State<ChatList> {
-  int itemCountToShow = 3;
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      padding: EdgeInsets.only(top: 0, bottom: 0),
-      itemCount: itemCountToShow,
-      separatorBuilder: (BuildContext context, int index) => Divider(height: 0),
-      itemBuilder: (context, index) {
-        return ChatItem(
-          Lank: '1',
-          TravelName: '일본 오사카',
-          Like: '1,456',
-        );
-      },
+    return SizedBox(
+      child: ListView.builder(
+        shrinkWrap: true,
+        padding: EdgeInsets.only(left: 20, right: 20),
+        itemCount: widget.showAllItems ? 15 : 3,
+        itemBuilder: (context, index) {
+          return ChatItem(
+            Lank: (index + 1).toString(),
+            TravelName: '일본 오사카',
+            Like: '1,456',
+          );
+        },
+      ),
     );
-  }
-
-  void showMoreItems() {
-    setState(() {
-      itemCountToShow = 15;
-    });
   }
 }
 
-
 class ChatItem extends StatelessWidget {
-
   final String Lank;
   final String TravelName;
   final String Like;
@@ -188,30 +188,60 @@ class ChatItem extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            Lank,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
+      child: ListTile(
+        contentPadding: EdgeInsets.symmetric(horizontal: 15),
+        title: Row(
+          children: [
+            Text(
+              this.Lank,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 24,
+                color: Color(0xff2A59FF),
+              ),
             ),
-          ),
-          SizedBox(height: 5),
-          Text(
-            TravelName,
-            style: TextStyle(
-              color: Colors.grey[800],
+            SizedBox(width: 17),
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                image: DecorationImage(
+                  image: AssetImage('assets/images/listimg.png'),
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
-          ),
-          SizedBox(height: 5),
-          Text(
-            Like,
-            style: TextStyle(
-              color: Colors.grey[600],
+            SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 14),
+                  SizedBox(width: 7),
+                  Text(
+                    this.TravelName,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontFamily: 'Noto Sans KR',
+                      fontSize: 16,
+                      color: Colors.black,
+                    ),
+                  ),
+                  Text(
+                    '${this.Like}명이 좋아요 누른 여행지',
+                    style: TextStyle(
+                      color: Color(0xff474747),
+                      fontWeight: FontWeight.w500,
+                      fontFamily: "Noto sans KR",
+                      fontSize: 13,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
