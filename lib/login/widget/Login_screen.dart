@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:tteonatteona/main/widget/main_screen.dart';
+import 'login/model/login_model.dart';
+import 'dart:convert';
+import 'package:dio/dio.dart';
+
+
 
 class LoginScreen extends StatelessWidget {
 
@@ -16,15 +21,15 @@ class LoginScreen extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.start, // 수직 방향 중앙 정렬
-        crossAxisAlignment: CrossAxisAlignment.center, // 수평 방향 중앙 정렬
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(height: 113),
           Center(
             child: Image.asset('assets/images/Login.png'),
           ),
 
-          SizedBox(height: 75), // 이미지와 텍스트 필드 사이의 여백
+          SizedBox(height: 75),
 
           Container(
             width: 337,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tteonatteona/post/widget/post.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:tteonatteona/sign_up/widget/signup_complete_screen.dart';
+import 'package:tteonatteona/post/widget/post_upload_complete.dart';
 
 class PostAdd extends StatelessWidget {
   const PostAdd({Key? key}) : super(key: key);
@@ -158,7 +158,7 @@ class PostAdd extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.only(left: 240),
                     child : ElevatedButton(onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => complete()),);
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => post_upload_complete()),);
                     },
                         style: ElevatedButton.styleFrom(
                           minimumSize: Size(90, 48),
