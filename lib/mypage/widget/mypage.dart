@@ -29,11 +29,7 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
           SizedBox(height: 24),
           Row(
             children: [
-              SizedBox(width: 10),
-              IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.arrow_back, size: 20),
-              ),
+              SizedBox(width: 30),
               Text(
                 '마이 페이지',
                 style: TextStyle(
@@ -150,10 +146,73 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
 
   Widget buildReactedPostsWidget() {
     return Container(
-      padding: EdgeInsets.all(16),
-      child: Text('반응한 게시물 화면'),
+      padding: EdgeInsets.only(top: 16, left: 20, right: 20),
+      child: Center(
+        child: ListView.builder(
+          padding: EdgeInsets.zero,
+          shrinkWrap: true,
+          itemCount: 15,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: EdgeInsets.symmetric(vertical: 8),
+              child: Stack(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Color(0xff3792FD),
+                      ),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    width: 371,
+                    height: 90,
+                    child: Center(
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 20, right: 20),
+                        child: Text(
+                          '2024년 3월 19일에 LCK 보고 싶어서 서울 여행을 계획해보자 '
+                              '나는 잠실에 있는 시그니엘 호텔에서 잠을 자자 '
+                              '비용은 n빵 하는 걸로 그리고...',
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: Colors.black,
+                            fontFamily: "Noto Sans KR",
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 0.1,
+                    right: 20,
+                    child: TextButton(
+                      onPressed: () {
+                      },
+                      child: Text(
+                        '자세히 보기',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Color(0xff3792FD),
+                          fontFamily: "Noto Sans KR",
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
+
+
+
+
+
 
   Widget buildNoPlansWidget() {
     return Center(
