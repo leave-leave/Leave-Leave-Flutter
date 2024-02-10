@@ -10,6 +10,8 @@ class TravelPlane extends StatefulWidget {
 class _TravelPlaneState extends State<TravelPlane> {
   DateTime? startDate;
   DateTime? endDate;
+  TextEditingController textFieldController = TextEditingController();
+  List<String> travelItems = [];
 
   Future<void> _selectDate(BuildContext context, bool isStartDate) async {
     final DateTime? picked = await showDatePicker(
@@ -25,6 +27,16 @@ class _TravelPlaneState extends State<TravelPlane> {
         } else {
           endDate = picked;
         }
+      });
+    }
+  }
+
+  void addItemToList() {
+    String newItem = textFieldController.text.trim();
+    if (newItem.isNotEmpty) {
+      setState(() {
+        travelItems.add(newItem);
+        textFieldController.clear(); // 입력 필드 비우기
       });
     }
   }
@@ -158,6 +170,41 @@ class _TravelPlaneState extends State<TravelPlane> {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
+
+                SizedBox(height: 10),
+                Row(
+                  children: [
+                    IconButton(
+                      padding: EdgeInsets.only(left: 0),
+                    onPressed: addItemToList,
+                    icon: Icon(Icons.add),
+                    color: Color(0xff3792FD),
+                  ),
+                    Expanded(
+                      child: Container(
+                        margin: EdgeInsets.only(right: 22),
+                        width: 287,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: Color(0xffB8D1FE),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: TextField(
+                          controller: textFieldController,
+                          textAlign: TextAlign.left,
+                          decoration: InputDecoration(
+                            hintText: '할 일을 입력하세요',
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.symmetric(horizontal: 16),
+                            hintStyle: TextStyle(color: Color(0xffB0B7C3), fontSize: 14),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 5),
+                  ],
+                )
+
               ],
             ),
           ),
