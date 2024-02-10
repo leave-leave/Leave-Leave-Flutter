@@ -15,8 +15,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xffECF3FF),
-      body: SafeArea(
-        child: Column(
+      body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(height: 24),
@@ -136,7 +135,6 @@ class _HomeState extends State<Home> {
             ),
           ],
         ),
-      ),
     );
   }
 }
