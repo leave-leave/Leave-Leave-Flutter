@@ -8,45 +8,46 @@ class suggestion extends StatefulWidget {
 }
 
 class _SuggestionState extends State<suggestion> {
-
   bool _isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xffECF3FF),
-      body: Column(
-        children: [
-          SizedBox(height: 24),
-          Align(
-            child: Image.asset('assets/images/tteonatteonabar2.png'),
-          ),
-          SizedBox(height: 30),
-          Padding(
-            padding: EdgeInsets.only(left: 20),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                '예린님, 이 여행지는 어때요?',
-                style: TextStyle(
-                  color: Color(0xff1E3999),
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
+      body: SafeArea(
+        child: Column(
+          children: [
+            SizedBox(height: 6),
+            Align(
+              child: Image.asset('assets/images/tteonatteonabar2.png'),
+            ),
+            SizedBox(height: 30),
+            Padding(
+              padding: EdgeInsets.only(left: 20),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  '예린님, 이 여행지는 어때요?',
+                  style: TextStyle(
+                    color: Color(0xff1E3999),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ),
             ),
-          ),
-          SizedBox(height: 20),
-          Expanded(
-            child: ListView.builder(
-              padding: EdgeInsets.only(top: 0, bottom: 0, left: 20, right: 20),
-              itemCount: 25,
-              itemBuilder: (context, index) {
-                return CustomListItem(index: index);
-              },
+            SizedBox(height: 20),
+            Expanded(
+              child: ListView.builder(
+                padding: EdgeInsets.only(top: 0, bottom: 0, left: 20, right: 20),
+                itemCount: 25,
+                itemBuilder: (context, index) {
+                  return CustomListItem(index: index);
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -70,14 +71,17 @@ class CustomListItem extends StatelessWidget {
       child: ListTile(
         leading: Container(
           padding: EdgeInsets.only(left: 15),
-          child : Image.asset('assets/images/listimg.png'),
+          child: Image.asset('assets/images/listimg.png'),
         ),
-        title: Text('일본 오사카', style: TextStyle(
-          fontWeight: FontWeight.w500,
-          fontFamily: 'Noto Sans KR',
-          fontSize: 16,
-          color: Colors.black,
-        ),),
+        title: Text(
+          '일본 오사카',
+          style: TextStyle(
+            fontWeight: FontWeight.w500,
+            fontFamily: 'Noto Sans KR',
+            fontSize: 16,
+            color: Colors.black,
+          ),
+        ),
         subtitle: RichText(
           text: TextSpan(
             text: '1,456',
@@ -100,8 +104,7 @@ class CustomListItem extends StatelessWidget {
             ],
           ),
         ),
-        onTap: () {
-        },
+        onTap: () {},
       ),
     );
   }
