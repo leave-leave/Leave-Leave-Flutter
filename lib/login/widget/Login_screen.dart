@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:tteonatteona/main/widget/main_screen.dart';
+import 'package:tteonatteona/secret.dart';
 import 'login/model/login_model.dart';
 import 'dart:convert';
 import 'package:dio/dio.dart';
 
 
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
 
   static const Color blueColor = Color(0xff2A59FF);
   static const Color backgroundfieldColor = Color(0xffeeeeee);
@@ -14,6 +16,47 @@ class LoginScreen extends StatelessWidget {
   static const Color tteonatteonawhiteColor = Color(0xffffffff);
 
   const LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  TextEditingController idController = TextEditingController();
+  TextEditingController pwdController = TextEditingController();
+
+  Future<void> postLoginInfo(String accountId, String password) async {
+    Dio dio = Dio();
+
+    Map<String, dynamic> data = {
+      "accountId": accountId,
+      "password": password,
+    };
+
+    try {
+      final response = await dio.post(
+        "$baseUrl/users/login",
+        options: Options(
+          headers: {
+            "Content-Type": "application/json",
+          },
+        ),
+        data: jsonEncode(data),
+      );
+
+      if (response.statusCode != 200) {
+        throw Exception(response.data);
+      }
+
+      accessToken = response.data['access_token'];
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const MainScreen()),
+      );
+    } catch (e) {
+      throw Exception('Failed to post login info: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,28 +67,29 @@ class LoginScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 113),
+          const SizedBox(height: 113),
           Center(
             child: Image.asset('assets/images/Login.png'),
           ),
 
-          SizedBox(height: 75),
+          const SizedBox(height: 75),
 
           Container(
             width: 337,
             height: 42,
             child: TextField(
-              style: TextStyle(
+              controller: idController,
+              style: const TextStyle(
                 fontSize: 12,
               ),
               decoration: InputDecoration(
                 hintText: "아이디",
-                hintStyle: TextStyle(
+                hintStyle: const TextStyle(
                   fontFamily: "Noto Sans KR",
-                  color: fieldtextColor,
+                  color: LoginScreen.fieldtextColor,
                 ),
                 filled: true,
-                fillColor: backgroundfieldColor,
+                fillColor: LoginScreen.backgroundfieldColor,
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                     borderSide: BorderSide.none
@@ -53,22 +97,23 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 16,),
+          const SizedBox(height: 16,),
           Container(
             width: 337,
             height: 42,
             child: TextField(
-              style: TextStyle(
+              controller: pwdController,
+              style: const TextStyle(
                 fontSize: 12,
               ),
               decoration: InputDecoration(
                 hintText: "비밀번호",
-                hintStyle: TextStyle(
+                hintStyle: const TextStyle(
                   fontFamily: "Noto Sans KR",
-                  color: fieldtextColor,
+                  color: LoginScreen.fieldtextColor,
                 ),
                 filled: true,
-                fillColor: Color(0xffeeeeee),
+                fillColor: const Color(0xffeeeeee),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                     borderSide: BorderSide.none
@@ -77,28 +122,25 @@ class LoginScreen extends StatelessWidget {
             ),
           ),
 
-          SizedBox(height: 343),
+          const SizedBox(height: 343),
           Container(
             width: 337,
             height: 40,
             child: TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MainScreen()),
-                );
+              onPressed: () async {
+                await postLoginInfo(idController.text, pwdController.text);
               },
-              child: Text(
+              child: const Text(
                 '로그인',
                 style: TextStyle(
-                  color: tteonatteonawhiteColor,
+                  color: LoginScreen.tteonatteonawhiteColor,
                   fontFamily: 'NotoSansKR',
                 ),
               ),
               style: TextButton.styleFrom(
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-                backgroundColor: blueColor,
-                padding: EdgeInsets.symmetric(horizontal: 50.0),
+                backgroundColor: LoginScreen.blueColor,
+                padding: const EdgeInsets.symmetric(horizontal: 50.0),
               ),
             ),
           ),
