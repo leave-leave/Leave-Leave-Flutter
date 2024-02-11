@@ -9,21 +9,25 @@ class SignupScreen2 extends StatefulWidget {
   static const Color backgroundfieldColor = Color(0xffeeeeee);
   static const Color fieldtextColor = Color(0xff9c9c9c);
   static const Color tteonatteonawhiteColor = Color(0xffffffff);
+  final String name;
+  final String phoneNumber;
 
-  const SignupScreen2({Key? key}) : super(key: key);
+  const SignupScreen2({
+    Key? key,
+    required this.name,
+    required this.phoneNumber,
+  }) : super(key: key);
 
   @override
   State<SignupScreen2> createState() => _SignupScreen2State();
 }
 
 class _SignupScreen2State extends State<SignupScreen2> {
-
   TextEditingController idController = TextEditingController();
   TextEditingController pwdController = TextEditingController();
   TextEditingController pwdCheckController = TextEditingController();
 
   bool signupfailed = false;
-
 
   @override
   void dispose() {
@@ -33,43 +37,43 @@ class _SignupScreen2State extends State<SignupScreen2> {
     super.dispose();
   }
 
-
-
-  Future<void> postSignup2(String id, String pwd, String pwdCheck) async{
+  Future<void> postSignup2(
+      String id, String pwd, String name, String phoneNumber) async {
     Dio dio = Dio();
 
     dio.options.connectTimeout = Duration(seconds: 10);
 
     Map<String, dynamic> data = {
-      "id": id,
-      "pwd": pwd,
-      "pwdCheck" : pwdCheck,
+      "accountId": id,
+      "password": pwd,
+      "name": name,
+      "phoneNumber": phoneNumber
     };
-
     try {
       final response = await dio.post(
         "$baseUrl/users/signup",
-          data: {
-            "id": idController.text,
-            "pwd": pwdController.text,
-            "pwdCheck" : pwdCheckController.text,
-          }
+        options: Options(
+          headers: {
+            "Content-Type": "application/json",
+          },
+        ),
+        data: jsonEncode(data),
       );
-      if (response.statusCode == 200) {
-        print('success');
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => complete()),
-        );
+      print(response.statusCode);
+      if (response.statusCode != 201) {
+        throw Exception();
       }
+      print(response.statusCode);
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => complete()),
+      );
     } catch (e) {
       setState(() {
         signupfailed = true;
       });
-      print('fail');
+      throw Exception('Failed to post login info: $e');
     }
-
-
   }
 
   @override
@@ -159,13 +163,11 @@ class _SignupScreen2State extends State<SignupScreen2> {
                 ),
                 SizedBox(width: 4),
                 TextButton(
-                  onPressed: () {
-
-
-                  },
+                  onPressed: () {},
                   style: TextButton.styleFrom(
                     backgroundColor: SignupScreen2.blueColor,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8)),
                   ),
                   child: Container(
                     width: 65,
@@ -185,7 +187,6 @@ class _SignupScreen2State extends State<SignupScreen2> {
               ],
             ),
           ),
-
           SizedBox(height: 32),
           Row(
             children: [
@@ -289,13 +290,18 @@ class _SignupScreen2State extends State<SignupScreen2> {
             width: 337,
             height: 40,
             child: TextButton(
-              onPressed: () async{
-                  await postSignup2(idController.text, pwdController.text, pwdCheckController.text);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => complete()),
-                  );
-                },
+              onPressed: () async {
+                print(idController.text);
+                print(pwdController.text);
+                print(widget.name);
+                print(widget.phoneNumber);
+                await postSignup2(
+                  idController.text,
+                  pwdController.text,
+                  widget.name,
+                  widget.phoneNumber,
+                );
+              },
               child: Text(
                 '회원가입',
                 style: TextStyle(
@@ -304,7 +310,8 @@ class _SignupScreen2State extends State<SignupScreen2> {
                 ),
               ),
               style: TextButton.styleFrom(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0)),
                 backgroundColor: SignupScreen2.blueColor,
                 padding: EdgeInsets.symmetric(horizontal: 50.0),
               ),

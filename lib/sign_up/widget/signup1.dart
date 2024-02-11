@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:tteonatteona/secret.dart';
 import 'dart:convert';
 
-
 class SignupScreen extends StatefulWidget {
   static const Color blueColor = Color(0xff2A59FF);
   static const Color backgroundfieldColor = Color(0xffeeeeee);
@@ -18,45 +17,14 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
-
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
-
 
   @override
   void dispose() {
     nameController.dispose();
     phoneNumberController.dispose();
     super.dispose();
-  }
-
-  Future<void> postSignup(String name, String phoneNumber) async{
-    Dio dio = Dio();
-
-    dio.options.connectTimeout = Duration(seconds: 10);
-
-    Map<String, dynamic> data = {
-      "name": name,
-      "phoneNumber": phoneNumber,
-    };
-
-    try {
-      final response = await dio.post(
-        "$baseUrl/users/signup",
-        data: data,
-      );
-      if (response.statusCode == 200) {
-        print('success');
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => SignupScreen2()),
-        );
-      } else {
-        print('fail');
-      }
-    } catch (e) {
-      print('fail: $e');
-    }
   }
 
   @override
@@ -103,7 +71,9 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
             ],
           ),
-          SizedBox(height: 19,),
+          SizedBox(
+            height: 19,
+          ),
           Row(
             children: [
               SizedBox(width: 35),
@@ -184,11 +154,11 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
                 SizedBox(width: 4),
                 TextButton(
-                  onPressed: () {
-                  },
+                  onPressed: () {},
                   style: TextButton.styleFrom(
                     backgroundColor: SignupScreen.blueColor,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8)),
                   ),
                   child: Container(
                     width: 65,
@@ -251,20 +221,18 @@ class _SignupScreenState extends State<SignupScreen> {
             height: 40,
             child: TextButton(
               onPressed: () async {
-
                 String name = nameController.text;
                 String phoneNumber = phoneNumberController.text;
-
-                try {
-                  await postSignup(name, phoneNumber);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SignupScreen2()),
-                  );
-                } catch (e) {
-                  print('fail');
-                }
-                },
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SignupScreen2(
+                      name: name,
+                      phoneNumber: phoneNumber,
+                    ),
+                  ),
+                );
+              },
               child: Text(
                 '다음',
                 style: TextStyle(
@@ -273,7 +241,8 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
               ),
               style: TextButton.styleFrom(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0)),
                 backgroundColor: SignupScreen.blueColor,
                 padding: EdgeInsets.symmetric(horizontal: 50.0),
               ),
