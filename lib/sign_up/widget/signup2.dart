@@ -1,13 +1,56 @@
 import 'package:flutter/material.dart';
 import 'signup_complete_screen.dart';
+import 'package:dio/dio.dart';
+import 'package:tteonatteona/secret.dart';
+import 'dart:convert';
 
-class SignupScreen2 extends StatelessWidget {
+class SignupScreen2 extends StatefulWidget {
   static const Color blueColor = Color(0xff2A59FF);
   static const Color backgroundfieldColor = Color(0xffeeeeee);
   static const Color fieldtextColor = Color(0xff9c9c9c);
   static const Color tteonatteonawhiteColor = Color(0xffffffff);
 
   const SignupScreen2({Key? key}) : super(key: key);
+
+  @override
+  State<SignupScreen2> createState() => _SignupScreen2State();
+}
+
+class _SignupScreen2State extends State<SignupScreen2> {
+
+  TextEditingController idController = TextEditingController();
+  TextEditingController pwdController = TextEditingController();
+  TextEditingController pwdCheckController = TextEditingController();
+
+
+  @override
+  void dispose() {
+    idController.dispose();
+    pwdController.dispose();
+    pwdCheckController.dispose();
+    super.dispose();
+  }
+
+  Future<void> postSignup2() async{
+    Dio dio = Dio();
+    try {
+      final response = await dio.post(
+        "$baseUrl/users/signup",
+          data: {
+            "id": idController.text,
+            "pwd": pwdController.text,
+            "pwdCheck" : pwdCheckController.text,
+          }
+      );
+      if (response.statusCode == 200) {
+        print('success');
+      }
+    } catch (e) {
+      print('fail');
+    }
+
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +99,7 @@ class SignupScreen2 extends StatelessWidget {
           SizedBox(height: 19),
           Row(
             children: [
-              SizedBox(width: 35), // 조절 가능한 왼쪽 여백
+              SizedBox(width: 35),
               Text(
                 '아이디',
                 style: TextStyle(
@@ -67,7 +110,7 @@ class SignupScreen2 extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 4), // 라벨과 TextField 간의 간격 조절
+          SizedBox(height: 4),
           Container(
             width: 349,
             height: 35,
@@ -75,6 +118,7 @@ class SignupScreen2 extends StatelessWidget {
               children: [
                 Expanded(
                   child: TextField(
+                    controller: idController,
                     style: TextStyle(
                       fontSize: 12,
                     ),
@@ -82,10 +126,10 @@ class SignupScreen2 extends StatelessWidget {
                       hintText: "영문과 숫자 필수(8자 ~ 15자)",
                       hintStyle: TextStyle(
                         fontFamily: "Noto Sans KR",
-                        color: fieldtextColor,
+                        color: SignupScreen2.fieldtextColor,
                       ),
                       filled: true,
-                      fillColor: backgroundfieldColor,
+                      fillColor: SignupScreen2.backgroundfieldColor,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                         borderSide: BorderSide.none,
@@ -93,13 +137,14 @@ class SignupScreen2 extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(width: 4), // 조절 가능한 간격
+                SizedBox(width: 4),
                 TextButton(
                   onPressed: () {
-                    // 여기에 기존의 onTap 로직을 넣으세요
+
+
                   },
                   style: TextButton.styleFrom(
-                    backgroundColor: blueColor,
+                    backgroundColor: SignupScreen2.blueColor,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                   ),
                   child: Container(
@@ -124,7 +169,7 @@ class SignupScreen2 extends StatelessWidget {
           SizedBox(height: 32),
           Row(
             children: [
-              SizedBox(width: 35), // 조절 가능한 왼쪽 여백
+              SizedBox(width: 35),
               Text(
                 '비밀번호',
                 style: TextStyle(
@@ -135,7 +180,7 @@ class SignupScreen2 extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 4), // 라벨과 TextField 간의 간격 조절
+          SizedBox(height: 4),
           Container(
             width: 349,
             height: 35,
@@ -143,6 +188,7 @@ class SignupScreen2 extends StatelessWidget {
               children: [
                 Expanded(
                   child: TextField(
+                    controller: pwdController,
                     obscureText: true,
                     style: TextStyle(
                       fontSize: 12,
@@ -151,10 +197,10 @@ class SignupScreen2 extends StatelessWidget {
                       hintText: "숫자, 영문, 특수문자 필수(최대 20자)",
                       hintStyle: TextStyle(
                         fontFamily: "Noto Sans KR",
-                        color: fieldtextColor,
+                        color: SignupScreen2.fieldtextColor,
                       ),
                       filled: true,
-                      fillColor: backgroundfieldColor,
+                      fillColor: SignupScreen2.backgroundfieldColor,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                         borderSide: BorderSide.none,
@@ -162,14 +208,14 @@ class SignupScreen2 extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(width: 4), // 조절 가능한 간격
+                SizedBox(width: 4),
               ],
             ),
           ),
           SizedBox(height: 19),
           Row(
             children: [
-              SizedBox(width: 35), // 조절 가능한 왼쪽 여백
+              SizedBox(width: 35),
               Text(
                 '비밀번호 재입력',
                 style: TextStyle(
@@ -180,11 +226,12 @@ class SignupScreen2 extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 4), // 라벨과 TextField 간의 간격 조절
+          SizedBox(height: 4),
           Container(
             width: 349,
             height: 35,
             child: TextField(
+              controller: pwdCheckController,
               obscureText: true,
               style: TextStyle(
                 fontSize: 12,
@@ -193,10 +240,10 @@ class SignupScreen2 extends StatelessWidget {
                 hintText: "숫자, 영문, 특수문자 필수(최대 20자)",
                 hintStyle: TextStyle(
                   fontFamily: "Noto Sans KR",
-                  color: fieldtextColor,
+                  color: SignupScreen2.fieldtextColor,
                 ),
                 filled: true,
-                fillColor: backgroundfieldColor,
+                fillColor: SignupScreen2.backgroundfieldColor,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                   borderSide: BorderSide.none,
@@ -217,14 +264,14 @@ class SignupScreen2 extends StatelessWidget {
               child: Text(
                 '회원가입',
                 style: TextStyle(
-                  color: tteonatteonawhiteColor,
-                  fontFamily: 'NotoSansKR', // 폰트 변경
+                  color: SignupScreen2.tteonatteonawhiteColor,
+                  fontFamily: 'NotoSansKR',
                 ),
               ),
               style: TextButton.styleFrom(
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-                backgroundColor: blueColor,
-                padding: EdgeInsets.symmetric(horizontal: 50.0), // 패딩 추가
+                backgroundColor: SignupScreen2.blueColor,
+                padding: EdgeInsets.symmetric(horizontal: 50.0),
               ),
             ),
           ),
