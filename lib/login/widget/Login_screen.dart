@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:tteonatteona/main/widget/main_screen.dart';
 import 'package:tteonatteona/secret.dart';
-import 'login/model/login_model.dart';
 import 'dart:convert';
 import 'package:dio/dio.dart';
 
@@ -24,6 +22,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController idController = TextEditingController();
   TextEditingController pwdController = TextEditingController();
+  bool loginFailed = false;
 
   Future<void> postLoginInfo(String accountId, String password) async {
     Dio dio = Dio();
@@ -54,6 +53,9 @@ class _LoginScreenState extends State<LoginScreen> {
         MaterialPageRoute(builder: (context) => const MainScreen()),
       );
     } catch (e) {
+      setState(() {
+        loginFailed = true;
+      });
       throw Exception('Failed to post login info: $e');
     }
   }
@@ -121,8 +123,20 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
-
-          const SizedBox(height: 343),
+          Visibility(
+            visible: loginFailed,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 4.0, right: 130),
+              child: Text(
+                '아이디 또는 비밀번호가 일치하지 않습니다.',
+                style: TextStyle(
+                  color: Colors.red,
+                  fontSize: 11,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 323),
           Container(
             width: 337,
             height: 40,
