@@ -22,6 +22,8 @@ class _SignupScreen2State extends State<SignupScreen2> {
   TextEditingController pwdController = TextEditingController();
   TextEditingController pwdCheckController = TextEditingController();
 
+  bool signupfailed = false;
+
 
   @override
   void dispose() {
@@ -31,8 +33,19 @@ class _SignupScreen2State extends State<SignupScreen2> {
     super.dispose();
   }
 
-  Future<void> postSignup2() async{
+
+
+  Future<void> postSignup2(String id, String pwd, String pwdCheck) async{
     Dio dio = Dio();
+
+    dio.options.connectTimeout = Duration(seconds: 10);
+
+    Map<String, dynamic> data = {
+      "id": id,
+      "pwd": pwd,
+      "pwdCheck" : pwdCheck,
+    };
+
     try {
       final response = await dio.post(
         "$baseUrl/users/signup",
@@ -44,8 +57,15 @@ class _SignupScreen2State extends State<SignupScreen2> {
       );
       if (response.statusCode == 200) {
         print('success');
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => complete()),
+        );
       }
     } catch (e) {
+      setState(() {
+        signupfailed = true;
+      });
       print('fail');
     }
 
@@ -251,16 +271,31 @@ class _SignupScreen2State extends State<SignupScreen2> {
               ),
             ),
           ),
+          Visibility(
+            visible: signupfailed,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 4.0, right: 130),
+              child: Text(
+                '아이디 또는 비밀번호가 일치하지 않습니다.',
+                style: TextStyle(
+                  color: Colors.red,
+                  fontSize: 11,
+                ),
+              ),
+            ),
+          ),
           SizedBox(height: 198),
           Container(
             width: 337,
             height: 40,
             child: TextButton(
-              onPressed: () {
-                Navigator.push(
+              onPressed: () async{
+                  await postSignup2(idController.text, pwdController.text, pwdCheckController.text);
+                  Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => complete()),
-                );},
+                  );
+                },
               child: Text(
                 '회원가입',
                 style: TextStyle(

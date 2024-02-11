@@ -30,24 +30,33 @@ class _SignupScreenState extends State<SignupScreen> {
     super.dispose();
   }
 
-
   Future<void> postSignup(String name, String phoneNumber) async{
     Dio dio = Dio();
+
+    dio.options.connectTimeout = Duration(seconds: 10);
+
+    Map<String, dynamic> data = {
+      "name": name,
+      "phoneNumber": phoneNumber,
+    };
+
     try {
       final response = await dio.post(
         "$baseUrl/users/signup",
-          data: {
-            "name": nameController.text,
-            "phoneNumber": phoneNumberController.text,
-          }
+        data: data,
       );
       if (response.statusCode == 200) {
         print('success');
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => SignupScreen2()),
+        );
+      } else {
+        print('fail');
       }
     } catch (e) {
-      print('fail');
+      print('fail: $e');
     }
-
   }
 
   @override
@@ -241,11 +250,21 @@ class _SignupScreenState extends State<SignupScreen> {
             width: 337,
             height: 40,
             child: TextButton(
-              onPressed: () {
-                Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SignupScreen2()),
-              );},
+              onPressed: () async {
+
+                String name = nameController.text;
+                String phoneNumber = phoneNumberController.text;
+
+                try {
+                  await postSignup(name, phoneNumber);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SignupScreen2()),
+                  );
+                } catch (e) {
+                  print('fail');
+                }
+                },
               child: Text(
                 '다음',
                 style: TextStyle(
