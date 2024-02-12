@@ -25,7 +25,6 @@ class SignupScreen2 extends StatefulWidget {
 class _SignupScreen2State extends State<SignupScreen2> {
   TextEditingController idController = TextEditingController();
   TextEditingController pwdController = TextEditingController();
-  TextEditingController pwdCheckController = TextEditingController();
 
   bool signupfailed = false;
 
@@ -33,7 +32,6 @@ class _SignupScreen2State extends State<SignupScreen2> {
   void dispose() {
     idController.dispose();
     pwdController.dispose();
-    pwdCheckController.dispose();
     super.dispose();
   }
 
@@ -252,7 +250,6 @@ class _SignupScreen2State extends State<SignupScreen2> {
             width: 349,
             height: 35,
             child: TextField(
-              controller: pwdCheckController,
               obscureText: true,
               style: TextStyle(
                 fontSize: 12,

@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'signup2.dart';
-import 'package:dio/dio.dart';
-import 'package:tteonatteona/secret.dart';
-import 'dart:convert';
 
 class SignupScreen extends StatefulWidget {
   static const Color blueColor = Color(0xff2A59FF);
