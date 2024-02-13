@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tteonatteona/suggestion/suggestion_explain.dart';
 
 class suggestion extends StatefulWidget {
   const suggestion({Key? key}) : super(key: key);
@@ -8,7 +9,6 @@ class suggestion extends StatefulWidget {
 }
 
 class _SuggestionState extends State<suggestion> {
-  bool _isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +104,12 @@ class CustomListItem extends StatelessWidget {
             ],
           ),
         ),
-        onTap: () {},
+        onTap: () {
+          Navigator.push(context,
+              MaterialPageRoute(
+                  fullscreenDialog: false,
+                  builder: (context) => const suggestion_explain()));
+        },
       ),
     );
   }
