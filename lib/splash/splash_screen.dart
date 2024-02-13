@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tteonatteona/login/widget/Login_screen.dart';
-import 'package:tteonatteona/sign_up/widget/signup1.dart';
+import 'package:tteonatteona/sign_up/widget/signup.dart';
 
 class Screen extends StatelessWidget {
   const Screen({Key? key}) : super(key: key);
@@ -11,7 +11,7 @@ class Screen extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          SizedBox(height: 198.0), // 상단 간격 조절
+          SizedBox(height: 198.0),
           Expanded(
             child: Center(
               child: SizedBox(
@@ -19,7 +19,7 @@ class Screen extends StatelessWidget {
               ),
               )
           ),
-          SizedBox(height: 194.0), // 로고와 버튼 사이 간격 조절
+          SizedBox(height: 194.0),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 50.0),
             child: Container(
@@ -27,7 +27,6 @@ class Screen extends StatelessWidget {
               height: 40,
               child: TextButton(
                 onPressed: () {
-                  // 로그인 버튼 클릭 시 다음 화면으로 이동
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => LoginScreen()),
@@ -37,18 +36,18 @@ class Screen extends StatelessWidget {
                   '로그인',
                   style: TextStyle(
                     color: Colors.white,
-                    fontFamily: 'NotoSansKR', // 폰트 변경
+                    fontFamily: 'NotoSansKR',
                   ),
                 ),
                 style: TextButton.styleFrom(
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
                   backgroundColor: Color(0xFF2A59FF),
-                  padding: EdgeInsets.symmetric(horizontal: 50.0), // 패딩 추가
+                  padding: EdgeInsets.symmetric(horizontal: 50.0),
                 ),
               ),
             ),
           ),
-          SizedBox(height: 12), // 버튼 간격 조절
+          SizedBox(height: 12),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 50.0),
             child: Container(
@@ -58,25 +57,25 @@ class Screen extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => SignupScreen()),
+                    MaterialPageRoute(builder: (context) => SignupScreen(name: '',)),
                   );
                 },
                 child: Text(
                   '회원가입',
                   style: TextStyle(
                     color: Colors.white,
-                    fontFamily: 'NotoSansKR', // 폰트 변경
+                    fontFamily: 'NotoSansKR',
                   ),
                 ),
                 style: TextButton.styleFrom(
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
                   backgroundColor: Color(0xFF26A8BFD),
-                  padding: EdgeInsets.symmetric(horizontal: 50.0), // 패딩 추가
+                  padding: EdgeInsets.symmetric(horizontal: 50.0),
                 ),
               ),
             ),
           ),
-          SizedBox(height: 48.0), // 하단 간격 조절
+          SizedBox(height: 48.0),
         ],
       ),
     );
