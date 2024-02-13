@@ -7,7 +7,6 @@ import 'package:dio/dio.dart';
 
 
 class LoginScreen extends StatefulWidget {
-
   static const Color blueColor = Color(0xff2A59FF);
   static const Color backgroundfieldColor = Color(0xffeeeeee);
   static const Color fieldtextColor = Color(0xff9c9c9c);
@@ -104,6 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
             width: 337,
             height: 42,
             child: TextField(
+              obscureText: true,
               controller: pwdController,
               style: const TextStyle(
                 fontSize: 12,
