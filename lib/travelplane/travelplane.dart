@@ -36,7 +36,7 @@ class _TravelPlaneState extends State<TravelPlane> {
     if (newItem.isNotEmpty) {
       setState(() {
         travelItems.add(newItem);
-        textFieldController.clear(); // 입력 필드 비우기
+        textFieldController.clear();
       });
     }
   }
@@ -48,7 +48,7 @@ class _TravelPlaneState extends State<TravelPlane> {
       backgroundColor: Color(0xffECF3FF),
       body: Column(
         children: [
-          SizedBox(height: 24),
+          SizedBox(height: 21),
           Row(
             children: [
               SizedBox(width: 10),
@@ -63,7 +63,7 @@ class _TravelPlaneState extends State<TravelPlane> {
           SizedBox(height: 15),
           Container(
             width: 353,
-            height: 550,
+            height: 537,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
@@ -216,7 +216,6 @@ class _TravelPlaneState extends State<TravelPlane> {
               child: Image.asset('assets/images/airplane.png'),
             ),
           ),
-          SizedBox(height: 10),
           Align(
             alignment: Alignment.centerLeft,
             child: Column(
