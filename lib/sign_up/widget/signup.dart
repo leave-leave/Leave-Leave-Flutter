@@ -23,6 +23,7 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
   TextEditingController idController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
   TextEditingController pwdController = TextEditingController();
   TextEditingController pwdConfirmController = TextEditingController();
   TextEditingController nameController = TextEditingController();
@@ -34,21 +35,20 @@ class _SignupScreenState extends State<SignupScreen> {
   void dispose() {
     nameController.dispose();
     idController.dispose();
+    phoneNumberController.dispose();
     pwdController.dispose();
     pwdConfirmController.dispose();
     super.dispose();
   }
 
-  Future<void> postSignup(
-      String id, String pwd, String name) async {
+  Future<void> postSignup(BuildContext context, String name, String phoneNumber, String id, String pwd) async {
     Dio dio = Dio();
 
-    dio.options.connectTimeout = Duration(seconds: 10);
-
     Map<String, dynamic> data = {
+      "name": name,
+      "phoneNumber": phoneNumber,
       "accountId": id,
       "password": pwd,
-      "name": name,
     };
     try {
       final response = await dio.post(
@@ -58,48 +58,32 @@ class _SignupScreenState extends State<SignupScreen> {
             "Content-Type": "application/json",
           },
         ),
-        data: jsonEncode(data),
+        data: data,
       );
-      print(response.statusCode);
+
       if (response.statusCode != 201) {
-        throw Exception();
+        throw Exception('Failed to sign up: ${response.statusCode}');
       }
-      print(response.statusCode);
+
+      final responseData = jsonDecode(response.data);
+
+      print(response);
+      print(responseData);
+
+      final accessToken = responseData['access_token'];
+      if (accessToken == null) {
+        throw Exception('Failed to sign up: access token is null');
+      }
+
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => complete()),
+        MaterialPageRoute(builder: (context) => const Complete()),
       );
     } catch (e) {
       setState(() {
         signupfailed = true;
       });
       throw Exception('Failed to post login info: $e');
-    }
-  }
-
-  Future<bool> checkDuplicateId(String accountId, String accessToken) async {
-    Dio dio = Dio();
-
-    dio.options.connectTimeout = Duration(seconds: 10);
-
-    try {
-      final response = await dio.get(
-        "$baseUrl/users/$accountId",
-        options: Options(
-          headers: {
-            "Authorization": "Bearer $accessToken",
-          },
-        ),
-      );
-
-      if (response.statusCode == 200) {
-        return true;
-      } else {
-        return false;
-      }
-    } catch (e) {
-      print('Failed to check duplicate id: $e');
-      throw Exception('Failed to check duplicate id: $e');
     }
   }
 
@@ -110,7 +94,7 @@ class _SignupScreenState extends State<SignupScreen> {
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
-          SizedBox(height: 120),
+          SizedBox(height: 100),
           Center(
             child: Image.asset('assets/images/Signup.png'),
           ),
@@ -139,6 +123,43 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
               decoration: InputDecoration(
                 hintText: "최소 1자 ~ 5자",
+                hintStyle: TextStyle(
+                  fontFamily: "Noto Sans KR",
+                ),
+                filled: true,
+                fillColor: SignupScreen.backgroundfieldColor,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide.none,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 15),
+          Row(
+            children: [
+              SizedBox(width: 35),
+              Text(
+                '전화번호',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontFamily: "Noto Sans KR",
+                  color: Colors.black,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 4),
+          Container(
+            width: 349,
+            height: 36,
+            child: TextField(
+              controller: phoneNumberController,
+              style: TextStyle(
+                fontSize: 12,
+              ),
+              decoration: InputDecoration(
+                hintText: "11자 ~ 12자",
                 hintStyle: TextStyle(
                   fontFamily: "Noto Sans KR",
                 ),
@@ -308,35 +329,24 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
             ),
           ),
-          SizedBox(height: 125),
+          SizedBox(height: 110),
           Container(
             width: 337,
             height: 40,
             child: TextButton(
               onPressed: () async {
-                if (nameController.text.isEmpty ||
-                    idController.text.isEmpty ||
-                    pwdController.text.isEmpty ||
-                    pwdConfirmController.text.isEmpty ||
-                    pwdController.text != pwdConfirmController.text) {
-                  setState(() {
-                    passwordMatchError = true;
-                  });
-                } else {
-                  try {
-                    await postSignup(idController.text, pwdController.text, nameController.text);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => complete()),
-                    );
-                  } catch (e) {
-                    setState(() {
-                      signupfailed = true;
-                    });
-                    print('Failed to signup: $e');
-                  }
-                }
 
+                try {
+                  await postSignup(
+                    context,
+                    nameController.text,
+                    phoneNumberController.text,
+                    idController.text,
+                    pwdController.text,
+                  );
+                } catch (e) {
+                  print('Failed to sign up: $e');
+                }
 
               },
               child: Text(
