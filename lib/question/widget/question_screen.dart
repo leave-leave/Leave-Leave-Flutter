@@ -35,7 +35,7 @@ class question extends StatelessWidget {
           Image.asset('assets/images/question.png'),
           SizedBox(height: 12),
           questionlist(),
-          SizedBox(height: 27),
+          SizedBox(height: 24),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: Row(
@@ -47,9 +47,12 @@ class question extends StatelessWidget {
                     onPressed: () {
 
                     },
-                    child: Text('완료'),
+                    child: Text('완료', style: TextStyle(
+                      color: Colors.white
+                    ),),
                     style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      primary: Color(0xff3792FD)
                     ),
                   ),
                 )
@@ -91,7 +94,7 @@ class questionlist extends StatelessWidget {
           children: [
             Container(
               height: 70,
-              margin: EdgeInsets.symmetric(vertical: 13.7),
+              margin: EdgeInsets.symmetric(vertical: 12),
               decoration: BoxDecoration(
                 color: backgroundColor,
                 border: Border.all(
