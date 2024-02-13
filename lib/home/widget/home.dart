@@ -18,7 +18,6 @@ class _HomeState extends State<Home> {
       body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 24),
             Align(
               child: Image.asset('assets/images/tteonatteonabar.png'),
             ),
@@ -85,14 +84,30 @@ class _HomeState extends State<Home> {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 85.0),
-                  child: Image.asset('assets/images/location.png'),
-                ),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 55),
+                    child: Image.asset(
+                      'assets/images/location.png',)
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: Text(
+                        '현재 온도 : 18.9도',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
+
             SizedBox(height: 23),
             Padding(
               padding: EdgeInsets.only(left: 20),
@@ -186,7 +201,6 @@ class ChatItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       child: ListTile(
-        contentPadding: EdgeInsets.symmetric(horizontal: 15),
         title: Row(
           children: [
             Text(
@@ -201,7 +215,8 @@ class ChatItem extends StatelessWidget {
             Container(
               width: 40,
               height: 40,
-              decoration: BoxDecoration(
+              margin: EdgeInsets.only(bottom: 15),
+                decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
                 image: DecorationImage(
                   image: AssetImage('assets/images/listimg.png'),
@@ -214,8 +229,7 @@ class ChatItem extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 14),
-                  SizedBox(width: 7),
+                  SizedBox(height: 9),
                   Text(
                     this.travelName,
                     style: TextStyle(
