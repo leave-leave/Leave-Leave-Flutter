@@ -1,10 +1,10 @@
-class user_model {
+class model {
   String? accountId;
   String? name;
 
-  user_model({this.accountId, this.name});
+  model({this.accountId, this.name});
 
-  user_model.fromJson(Map<String, dynamic> json) {
+  model.fromJson(Map<String, dynamic> json) {
     accountId = json['account_id'];
     name = json['name'];
   }

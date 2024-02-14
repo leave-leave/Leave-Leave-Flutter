@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tteonatteona/travelplane/travelplane.dart';
+import 'package:tteonatteona/travelplane/widget/travelplane.dart';
+import 'package:tteonatteona/mypage/model/user_model.dart';
+import 'package:dio/dio.dart';
+import 'package:tteonatteona/secret.dart';
 
 class MyPage extends StatefulWidget {
   const MyPage({Key? key}) : super(key: key);
@@ -9,14 +12,39 @@ class MyPage extends StatefulWidget {
 }
 
 class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
-  late TabController _tabController;
+
+  late TabController _tabController = TabController(length: 2, vsync: this);
   bool hasPlans = true;
   bool hasReactedPosts = true;
+  model? userInfo;
+  model? _user;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
+    UserInfo();
+  }
+
+
+  void UserInfo() async {
+    Dio dio = Dio();
+    try {
+      final response = await dio.get(
+        "$baseUrl/users/user",
+          options: Options(
+            headers: {
+              "Content-Type": "application/json",
+            },
+          )
+      );
+      Map<String, dynamic> userData = response.data;
+      setState(() {
+        _user = model.fromJson(userData);
+      });
+      accessToken = response.data['access_token'];
+    } catch (e) {
+      print('Error');
+    }
   }
 
   @override
@@ -56,7 +84,7 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      '서예린',
+                      '${_user?.name ?? ''}',
                       style: TextStyle(
                         fontSize: 20,
                         fontFamily: 'Noto Sans KR',
@@ -101,7 +129,9 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
               controller: _tabController,
               children: [
                 hasPlans ? buildTravelPlanWidget() : buildNoPlansWidget(),
-                hasReactedPosts ? buildReactedPostsWidget() : buildNoReactedPostsWidget(),
+                hasReactedPosts
+                    ? buildReactedPostsWidget()
+                    : buildNoReactedPostsWidget(),
               ],
             ),
           ),
@@ -122,7 +152,10 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
             height: 35,
             child: TextButton(
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => TravelPlane()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => TravelPlane()));
               },
               child: Text(
                 '계획 작성하기',
@@ -187,8 +220,7 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
                     bottom: 0.1,
                     right: 20,
                     child: TextButton(
-                      onPressed: () {
-                      },
+                      onPressed: () {},
                       child: Text(
                         '자세히 보기',
                         style: TextStyle(
@@ -208,11 +240,6 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
       ),
     );
   }
-
-
-
-
-
 
   Widget buildNoPlansWidget() {
     return Center(

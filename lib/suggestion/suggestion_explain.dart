@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tteonatteona/travelplane/travelplane.dart';
+import 'package:tteonatteona/travelplane/widget/travelplane.dart';
 
 class suggestion_explain extends StatefulWidget {
   const suggestion_explain({Key? key}) : super(key: key);
