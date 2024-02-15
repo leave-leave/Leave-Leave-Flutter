@@ -98,7 +98,7 @@ class _HomeState extends State<Home> {
                         '현재 온도 : 18.9도',
                         style: TextStyle(
                           fontSize: 16,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w500,
                           color: Colors.black,
                         ),
                       ),

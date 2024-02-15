@@ -18,7 +18,7 @@ class _MainScreenState extends State<MainScreen> {
     Home(),
     Post(),
     suggestion(),
-    MyPage(),
+    MyPage(travelItems: [],),
   ];
 
   @override

@@ -5,7 +5,9 @@ import 'package:dio/dio.dart';
 import 'package:tteonatteona/secret.dart';
 
 class MyPage extends StatefulWidget {
-  const MyPage({Key? key}) : super(key: key);
+  final List<String> travelItems;
+
+  const MyPage({Key? key, required this.travelItems}) : super(key: key);
 
   @override
   State<MyPage> createState() => _MyPageState();
@@ -13,15 +15,19 @@ class MyPage extends StatefulWidget {
 
 class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
 
-  late TabController _tabController = TabController(length: 2, vsync: this);
+  late TabController _tabController;
   bool hasPlans = true;
   bool hasReactedPosts = true;
   model? userInfo;
   model? _user;
 
+
+  List<String> get travelItems => widget.travelItems;
+
   @override
   void initState() {
     super.initState();
+    _tabController = TabController(length: 2, vsync: this);
     UserInfo();
   }
 
@@ -173,6 +179,13 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
             ),
           ),
         ),
+        // ListView.builder(
+        //     itemBuilder: (context, index){
+        //       return ListTile(
+        //         title: Text(travelItems[index]),
+        //       );
+        //     },
+        // )
       ],
     );
   }

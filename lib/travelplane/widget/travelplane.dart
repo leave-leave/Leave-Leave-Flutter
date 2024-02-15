@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tteonatteona/mypage/widget/mypage.dart';
 
 class TravelPlane extends StatefulWidget {
   const TravelPlane({Key? key}) : super(key: key);
@@ -54,7 +55,9 @@ class _TravelPlaneState extends State<TravelPlane> {
               SizedBox(width: 10),
               IconButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.pop(context, MaterialPageRoute(
+                    builder: (context) => MyPage(travelItems: travelItems),
+                  ),);
                 },
                 icon: Icon(Icons.arrow_back, size: 20),
               ),
@@ -175,11 +178,10 @@ class _TravelPlaneState extends State<TravelPlane> {
                 Row(
                   children: [
                     IconButton(
-                      padding: EdgeInsets.only(left: 0),
-                    onPressed: addItemToList,
-                    icon: Icon(Icons.add),
-                    color: Color(0xff3792FD),
-                  ),
+                      onPressed: addItemToList,
+                      icon: Icon(Icons.add),
+                      color: Color(0xff3792FD),
+                    ),
                     Expanded(
                       child: Container(
                         margin: EdgeInsets.only(right: 22),
@@ -203,7 +205,33 @@ class _TravelPlaneState extends State<TravelPlane> {
                     ),
                     SizedBox(width: 5),
                   ],
-                )
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: travelItems.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        width: 287,
+                        height: 54,
+                        margin: EdgeInsets.only(left: 22, right: 23, bottom: 24),
+                        decoration: BoxDecoration(
+                          color: Color(0xffB8D1FE),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: ListTile(
+                          title: Text(
+                            travelItems[index],
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                            ),
+                          ),
+                          leading: Icon(Icons.check_circle, color: Color(0xff53A8F7)),
+                        ),
+                      );
+                    },
+                  ),
+                ),
 
               ],
             ),
