@@ -179,13 +179,9 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
             ),
           ),
         ),
-        // ListView.builder(
-        //     itemBuilder: (context, index){
-        //       return ListTile(
-        //         title: Text(travelItems[index]),
-        //       );
-        //     },
-        // )
+
+
+
       ],
     );
   }

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tteonatteona/mypage/widget/mypage.dart';
+import 'package:tteonatteona/travelplane/model/travelplane_add.dart';
+import 'package:dio/dio.dart';
+import 'package:tteonatteona/secret.dart';
+import 'dart:convert';
 
 class TravelPlane extends StatefulWidget {
   const TravelPlane({Key? key}) : super(key: key);
@@ -13,6 +17,24 @@ class _TravelPlaneState extends State<TravelPlane> {
   DateTime? endDate;
   TextEditingController textFieldController = TextEditingController();
   List<String> travelItems = [];
+
+
+  Future<void> postplane() async {
+    Dio dio = Dio();
+
+    try {
+      final response = await dio.get(
+          "$baseUrl/plans",
+          options: Options(
+            headers: {
+              "Content-Type": "application/json",
+            },
+          )
+      );
+    } catch (e) {
+      print('fail');
+    }
+  }
 
   Future<void> _selectDate(BuildContext context, bool isStartDate) async {
     final DateTime? picked = await showDatePicker(
