@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tteonatteona/post/widget/post.dart';
 import 'package:tteonatteona/travelplane/widget/travelplane.dart';
 import 'package:tteonatteona/mypage/model/user_model.dart';
 import 'package:dio/dio.dart';
@@ -6,8 +7,12 @@ import 'package:tteonatteona/secret.dart';
 
 class MyPage extends StatefulWidget {
   final List<String> travelItems;
+  final DateTime? startDate;
+  final DateTime? endDate;
 
-  const MyPage({Key? key, required this.travelItems}) : super(key: key);
+  const MyPage({Key? key, required this.travelItems,
+    this.startDate,
+    this.endDate,}) : super(key: key);
 
   @override
   State<MyPage> createState() => _MyPageState();
@@ -23,13 +28,6 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
 
 
   List<String> get travelItems => widget.travelItems;
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 2, vsync: this);
-    UserInfo();
-  }
 
 
   void UserInfo() async {
@@ -55,6 +53,12 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+
+
+    List<String> travelItems = widget.travelItems;
+    DateTime? startDate = widget.startDate;
+    DateTime? endDate = widget.endDate;
+
     return Scaffold(
       backgroundColor: Color(0xffECF3FF),
       body: Column(
@@ -179,8 +183,37 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
             ),
           ),
         ),
-
-
+        SizedBox(height: 16),
+        Container(
+          width: 363,
+          height: 455,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10)
+          ),
+          child: Column(
+            children: [
+              Text(
+                '내가 여행할 장소:',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Icon(Icons.delete),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: widget.travelItems
+                    .map((item) => Text(item))
+                    .toList(),
+              ),
+              SizedBox(height: 20),
+              Text(
+                '여행 기간:',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Text('시작 날짜: ${widget.startDate}'),
+              Text('종료 날짜: ${widget.endDate}'),
+            ],
+          ),
+        )
 
       ],
     );
@@ -229,7 +262,11 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
                     bottom: 0.1,
                     right: 20,
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(context, 
+                        MaterialPageRoute(builder: (context) => const Post())    
+                        )
+                      },
                       child: Text(
                         '자세히 보기',
                         style: TextStyle(
