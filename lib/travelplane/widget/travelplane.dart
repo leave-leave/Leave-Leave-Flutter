@@ -305,7 +305,11 @@ class _TravelPlaneState extends State<TravelPlane> {
             child: TextButton(
               onPressed: () {
                 Navigator.pop(
-                  context,
+                  context,{
+                  'travelItems': travelItems,
+                  'startDate': startDate,
+                  'endDate': endDate,
+                }
                 );
               },
               child: Text(

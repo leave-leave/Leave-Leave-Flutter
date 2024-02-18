@@ -53,7 +53,7 @@ class _PostState extends State<Post> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => post_details()),
+                MaterialPageRoute(builder: (context) => PostDetails()),
               );
             },
             child: Container(
