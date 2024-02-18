@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
+import 'package:tteonatteona/home/widget/home.dart';
 import 'package:tteonatteona/login/widget/Login_screen.dart';
-import 'package:tteonatteona/post/widget/post.dart';
+import 'package:tteonatteona/mypage/widget/mypage.dart';
 import 'package:tteonatteona/sign_up/widget/signup.dart';
 
 
@@ -32,7 +32,7 @@ class Screen extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Post()),
+                    MaterialPageRoute(builder: (context) => LoginScreen()),
                   );
                 },
                 child: Text(
