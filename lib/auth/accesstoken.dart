@@ -1,9 +1,9 @@
-class accesstokenresponse {
+class AccessTokenResponse {
   Token? token;
 
-  accesstokenresponse({this.token});
+  AccessTokenResponse({this.token});
 
-  accesstokenresponse.fromJson(Map<String, dynamic> json) {
+  AccessTokenResponse.fromJson(Map<String, dynamic> json) {
     token = json['token'] != null ? new Token.fromJson(json['token']) : null;
   }
 
