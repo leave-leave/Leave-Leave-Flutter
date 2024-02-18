@@ -30,7 +30,7 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
   List<String> get travelItems => widget.travelItems;
 
 
-  void UserInfo() async {
+  Future UserInfo() async {
     Dio dio = Dio();
     try {
       final response = await dio.get(
@@ -53,11 +53,6 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-
-
-    List<String> travelItems = widget.travelItems;
-    DateTime? startDate = widget.startDate;
-    DateTime? endDate = widget.endDate;
 
     return Scaffold(
       backgroundColor: Color(0xffECF3FF),
@@ -184,37 +179,6 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
           ),
         ),
         SizedBox(height: 16),
-        Container(
-          width: 363,
-          height: 455,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10)
-          ),
-          child: Column(
-            children: [
-              Text(
-                '내가 여행할 장소:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Icon(Icons.delete),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: widget.travelItems
-                    .map((item) => Text(item))
-                    .toList(),
-              ),
-              SizedBox(height: 20),
-              Text(
-                '여행 기간:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text('시작 날짜: ${widget.startDate}'),
-              Text('종료 날짜: ${widget.endDate}'),
-            ],
-          ),
-        )
-
       ],
     );
   }
@@ -264,8 +228,8 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
                     child: TextButton(
                       onPressed: () {
                         Navigator.push(context, 
-                        MaterialPageRoute(builder: (context) => const Post())    
-                        )
+                        MaterialPageRoute(builder: (context) => const Post())
+                        );
                       },
                       child: Text(
                         '자세히 보기',
