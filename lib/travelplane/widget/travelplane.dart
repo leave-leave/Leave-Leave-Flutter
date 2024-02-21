@@ -19,22 +19,29 @@ class _TravelPlaneState extends State<TravelPlane> {
   List<String> travelItems = [];
 
 
-  Future<void> postplane() async {
+  Future<void> add_plane(String userId, String title, String startDate, String endDate) async {
     Dio dio = Dio();
-
     try {
-      final response = await dio.get(
-          "$baseUrl/plans",
-          options: Options(
-            headers: {
-              "Content-Type": "application/json",
-            },
-          )
+      final response = await dio.post(
+        "$baseUrl/plans",
+        options: Options(
+          headers: {
+            "Content-Type": "application/json",
+          },
+        ),
+        data: plane_add(
+          userId: userId,
+          title: title,
+          startDate: startDate,
+          endDate: endDate,
+        ).toJson(),
       );
+      print(response.data);
     } catch (e) {
       print('fail');
     }
   }
+
 
   Future<void> _selectDate(BuildContext context, bool isStartDate) async {
     final DateTime? picked = await showDatePicker(
@@ -304,13 +311,8 @@ class _TravelPlaneState extends State<TravelPlane> {
             height: 40,
             child: TextButton(
               onPressed: () {
-                Navigator.pop(
-                  context,{
-                  'travelItems': travelItems,
-                  'startDate': startDate,
-                  'endDate': endDate,
-                }
-                );
+                
+                Navigator.pop(context);
               },
               child: Text(
                 '계획 완료',
