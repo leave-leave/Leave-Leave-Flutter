@@ -61,23 +61,17 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
 
-  Future<AccessTokenResponse?> fetchAccessToken(String accountId, String password) async {
+  Future<AccessTokenResponse?> fetchAccessToken() async {
     Dio dio = Dio();
-
-    Map<String, dynamic> data = {
-      "accountId": accountId,
-      "password": password,
-    };
 
     try {
       final response = await dio.post(
         "$baseUrl/users/token",
         options: Options(
           headers: {
-            "Content-Type": "application/json",
+            "Authorization": "$accessToken",
           },
         ),
-        data: jsonEncode(data),
       );
 
       if (response.statusCode != 200) {
