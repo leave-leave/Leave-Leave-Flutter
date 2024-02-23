@@ -48,6 +48,7 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
           )
       );
       Map<String, dynamic> userData = response.data;
+      String userName = response.data['name'];
       setState(() {
         _user = model.fromJson(userData);
       });
@@ -95,7 +96,7 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      '${_user?.name ?? ''}',
+                      '$_user',
                       style: TextStyle(
                         fontSize: 20,
                         fontFamily: 'Noto Sans KR',

@@ -3,7 +3,6 @@ import 'package:tteonatteona/main/widget/main_screen.dart';
 import 'package:tteonatteona/secret.dart';
 import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:tteonatteona/auth/accesstoken.dart';
 
 
 class LoginScreen extends StatefulWidget {
@@ -23,6 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController pwdController = TextEditingController();
   bool loginFailed = false;
   String? accessToken;
+  String? refreshToken = '';
 
   Future<void> postLoginInfo(String accountId, String password) async {
     Dio dio = Dio();
@@ -47,42 +47,19 @@ class _LoginScreenState extends State<LoginScreen> {
         throw Exception(response.data);
       }
 
+      accessToken = response.data['access_token'];
+      refreshToken = response.data['refresh_token'];
 
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const MainScreen()),
       );
+
     } catch (e) {
       setState(() {
         loginFailed = true;
       });
       throw Exception('Failed to post login info: $e');
-    }
-  }
-
-
-  Future<AccessTokenResponse?> fetchAccessToken() async {
-    Dio dio = Dio();
-
-    try {
-      final response = await dio.post(
-        "$baseUrl/users/token",
-        options: Options(
-          headers: {
-            "Authorization": "$accessToken",
-          },
-        ),
-      );
-
-      if (response.statusCode != 200) {
-        throw Exception(response.data);
-      }
-
-      AccessTokenResponse accessTokenResponse = AccessTokenResponse.fromJson(response.data);
-
-      return accessTokenResponse;
-    } catch (e) {
-      throw Exception('Fail');
     }
   }
 
