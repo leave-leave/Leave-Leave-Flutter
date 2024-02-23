@@ -24,17 +24,13 @@ class _TravelPlaneState extends State<TravelPlane> {
     try {
       final response = await dio.post(
         "$baseUrl/plans",
+        data: jsonEncode(plane_add().toJson()),
         options: Options(
           headers: {
             "Content-Type": "application/json",
+            'Authorization': 'Bearer $accessToken'
           },
         ),
-        data: plane_add(
-          userId: userId,
-          title: title,
-          startDate: startDate,
-          endDate: endDate,
-        ).toJson(),
       );
       print(response.data);
     } catch (e) {
@@ -311,7 +307,7 @@ class _TravelPlaneState extends State<TravelPlane> {
             height: 40,
             child: TextButton(
               onPressed: () {
-                
+
                 Navigator.pop(context);
               },
               child: Text(
