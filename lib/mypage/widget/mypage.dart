@@ -23,9 +23,7 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
   late TabController _tabController;
   bool hasPlans = true;
   bool hasReactedPosts = true;
-  model? userInfo;
-  model? _user;
-
+  String? userName;
 
   @override
   void initState() {
@@ -35,28 +33,37 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
 
   List<String> get travelItems => widget.travelItems;
 
+  Future UserInfo() async{
 
-  Future UserInfo() async {
     Dio dio = Dio();
-    try {
+
+    try{
       final response = await dio.get(
-        "$baseUrl/users/user",
-          options: Options(
-            headers: {
-              "Content-Type": "application/json",
-            },
-          )
+
+        '$baseUrl/users/user',
+        options: Options(
+          headers: {
+            "Content-Type" : "application/json",
+            "Authorization" : "Bearer $accessToken"
+          },
+        )
       );
-      Map<String, dynamic> userData = response.data;
-      String userName = response.data['name'];
+
+      print("$accessToken");
+
+
+      model _user = model.fromJson(response.data);
       setState(() {
-        _user = model.fromJson(userData);
+        userName = _user.name;
       });
-      accessToken = response.data['access_token'];
-    } catch (e) {
-      print('Error');
+
+    }
+    catch(e){
+      print('e');
     }
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +103,7 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      '$_user',
+                      '$userName',
                       style: TextStyle(
                         fontSize: 20,
                         fontFamily: 'Noto Sans KR',

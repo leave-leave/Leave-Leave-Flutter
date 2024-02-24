@@ -6,7 +6,7 @@ class RefreshToken {
 
   RefreshToken.fromJson(Map<String, dynamic> json) {
     accessToken = json['access_token'];
-    refreshToken = json['refresh_tokke'];
+    refreshToken = json['refresh_token'];
   }
 
   Map<String, dynamic> toJson() {

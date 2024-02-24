@@ -43,6 +43,8 @@ class _LoginScreenState extends State<LoginScreen> {
         data: jsonEncode(data),
       );
 
+      print("asd : $accessToken");
+
       if (response.statusCode != 200) {
         throw Exception(response.data);
       }
