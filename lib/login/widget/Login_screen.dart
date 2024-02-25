@@ -21,8 +21,6 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController idController = TextEditingController();
   TextEditingController pwdController = TextEditingController();
   bool loginFailed = false;
-  String? accessToken;
-  String? refreshToken = '';
 
   Future<void> postLoginInfo(String accountId, String password) async {
     Dio dio = Dio();
@@ -43,14 +41,13 @@ class _LoginScreenState extends State<LoginScreen> {
         data: jsonEncode(data),
       );
 
-      print("asd : $accessToken");
-
       if (response.statusCode != 200) {
         throw Exception(response.data);
       }
 
       accessToken = response.data['access_token'];
       refreshToken = response.data['refresh_token'];
+      print('Response data: ${response.data}');
 
       Navigator.push(
         context,
@@ -143,7 +140,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
-          const SizedBox(height: 315),
+          //SizedBox(height: 315),
           Container(
             width: 337,
             height: 40,

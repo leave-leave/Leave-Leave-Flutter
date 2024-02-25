@@ -33,13 +33,12 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
 
   List<String> get travelItems => widget.travelItems;
 
-  Future UserInfo() async{
+  Future userInfo() async{
 
     Dio dio = Dio();
 
     try{
       final response = await dio.get(
-
         '$baseUrl/users/user',
         options: Options(
           headers: {
@@ -48,9 +47,6 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
           },
         )
       );
-
-      print("$accessToken");
-
 
       model _user = model.fromJson(response.data);
       setState(() {
@@ -67,7 +63,7 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-
+    userInfo();
     return Scaffold(
       backgroundColor: Color(0xffECF3FF),
       body: Column(

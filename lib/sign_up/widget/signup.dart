@@ -45,10 +45,10 @@ class _SignupScreenState extends State<SignupScreen> {
     Dio dio = Dio();
 
     Map<String, dynamic> data = {
-      "name": name,
-      "phoneNumber": phoneNumber,
       "accountId": id,
       "password": pwd,
+      "name": name,
+      "phoneNumber": phoneNumber,
     };
     try {
       final response = await dio.post(
@@ -329,7 +329,7 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
             ),
           ),
-          SizedBox(height: 110),
+          //SizedBox(height: 110),
           Container(
             width: 337,
             height: 40,

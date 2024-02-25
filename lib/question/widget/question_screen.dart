@@ -55,8 +55,7 @@ class question extends StatelessWidget {
                       color: Colors.white
                     ),),
                     style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                      primary: Color(0xff3792FD)
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), backgroundColor: Color(0xff3792FD)
                     ),
                   ),
                 )
