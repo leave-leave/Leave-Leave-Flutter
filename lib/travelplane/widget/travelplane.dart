@@ -19,22 +19,37 @@ class _TravelPlaneState extends State<TravelPlane> {
   List<String> travelItems = [];
 
 
-  Future<void> add_plane(String userId, String title, String startDate, String endDate) async {
+  Future<void> plane_add(
+      String userId,
+      String title,
+      String startDate,
+      String endDate
+      ) async {
     Dio dio = Dio();
+
+    Map<String, dynamic> data = {
+      "userId" : userId,
+      "title": title,
+      "startDate": startDate,
+      "endDate": endDate,
+    };
+
     try {
-      final response = await dio.post(
+      final resp = await dio.post(
         "$baseUrl/plans",
-        data: jsonEncode(plane_add().toJson()),
         options: Options(
           headers: {
             "Content-Type": "application/json",
-            'Authorization': 'Bearer $accessToken'
+            "Authorization": "Bearer $accessToken",
           },
         ),
+        data: jsonEncode(data),
       );
-      print(response.data);
+      print(resp.statusCode);
+      print(jsonEncode(data));
     } catch (e) {
-      print('fail');
+      print('에러');
+      throw Exception(e);
     }
   }
 

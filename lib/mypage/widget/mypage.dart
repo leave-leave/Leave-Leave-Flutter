@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:tteonatteona/post/widget/post.dart';
 import 'package:tteonatteona/travelplane/widget/travelplane.dart';
@@ -56,6 +57,38 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
     }
     catch(e){
       print('e');
+    }
+  }
+
+  Future<void> postLike(
+      String feedId,
+      String title,
+      String content,
+      ) async {
+    Dio dio = Dio();
+
+    Map<String, dynamic> data = {
+      "feedId": feedId,
+      "title": title,
+      "content": content,
+    };
+
+    try {
+      final resp = await dio.get(
+        "$baseUrl/feeds/like",
+        options: Options(
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $accessToken",
+          },
+        ),
+        data: jsonEncode(data),
+      );
+      print(resp.statusCode);
+      print(jsonEncode(data));
+    } catch (e) {
+      print('에러');
+      throw Exception(e);
     }
   }
 

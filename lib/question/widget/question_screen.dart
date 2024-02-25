@@ -1,11 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
-import 'package:tteonatteona/question/model/question_model.dart';
 import 'package:tteonatteona/secret.dart';
 import 'dart:convert';
 
 class question extends StatelessWidget {
   const question({Key? key}) : super(key: key);
+
+
+  Future<void> questionList() async {
+    Dio dio = Dio();
+
+    Map<String, dynamic> data = {
+    };
+
+    try {
+      final resp = await dio.get(
+        "$baseUrl/question",
+        options: Options(
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $accessToken",
+          },
+        ),
+        data: jsonEncode(data),
+      );
+      print(resp.statusCode);
+      print(jsonEncode(data));
+    } catch (e) {
+      print('에러');
+      throw Exception(e);
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:tteonatteona/post/widget/post_add.dart';
 import 'package:tteonatteona/post/widget/post_details.dart';
+import 'package:dio/dio.dart';
+import 'package:tteonatteona/secret.dart';
+import 'dart:convert';
+
+import '../model/post_check.dart';
 
 class Post extends StatefulWidget {
   const Post({Key? key}) : super(key: key);
@@ -12,6 +17,54 @@ class Post extends StatefulWidget {
 class _PostState extends State<Post> {
   int likeCount = 12;
   bool isLiked = false;
+
+  Future<void> postDelete(String feedId) async {
+    Dio dio = Dio();
+
+    try {
+      final resp = await dio.delete(
+        "$baseUrl/feeds/$feedId",
+        options: Options(
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $accessToken",
+          },
+        ),
+      );
+      print(resp.statusCode);
+    } catch (e) {
+      print('에러');
+      throw Exception(e);
+    }
+  }
+
+  Future<List<PostCheck>> fetchPosts() async {
+    Dio dio = Dio();
+
+    try {
+      final resp = await dio.get(
+        "$baseUrl/feeds",
+        options: Options(
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $accessToken",
+          },
+        ),
+      );
+      print(resp.statusCode);
+
+      List<PostCheck> posts = [];
+      for (var postData in resp.data) {
+        posts.add(PostCheck.fromJson(postData));
+      }
+
+      return posts;
+    } catch (e) {
+      print('에러');
+      throw Exception(e);
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +132,8 @@ class _PostState extends State<Post> {
                           fontWeight: FontWeight.w500,
                         ),
                       ),
+                      SizedBox(width: 220),
+                      Icon(Icons.delete)
                     ],
                   ),
                   SizedBox(height: 16),
