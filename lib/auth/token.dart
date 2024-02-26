@@ -12,7 +12,7 @@ class RefreshToken {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['access_token'] = this.accessToken;
-    data['refresh_tokke'] = this.refreshToken;
+    data['refresh_token'] = this.refreshToken;
     return data;
   }
 }

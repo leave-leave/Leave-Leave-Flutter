@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
+import 'dart:convert';
+import 'package:tteonatteona/secret.dart';
 
 class PostDetails extends StatefulWidget {
   const PostDetails({Key? key}) : super(key: key);
@@ -12,6 +15,78 @@ class _PostDetailsState extends State<PostDetails> {
   bool isLiked = false;
   TextEditingController commentController = TextEditingController();
   List<String> comments = [];
+
+
+  Future<void> comment(String feedId, String comment) async {
+    Dio dio = Dio();
+
+    Map<String, dynamic> data = {
+      "comment" : comment,
+    };
+
+    try {
+      final resp = await dio.post(
+        "$baseUrl/comment/$feedId",
+        options: Options(
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $accessToken",
+          },
+        ),
+      );
+      print(resp.statusCode);
+      print(jsonEncode(data));
+    } catch (e) {
+      print('에러');
+      throw Exception(e);
+    }
+  }
+
+
+  Future<void> commentdelete(String commentId, String comment) async {
+    Dio dio = Dio();
+
+    try {
+      final resp = await dio.delete(
+        "$baseUrl/comment/$commentId",
+        options: Options(
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $accessToken",
+          },
+        ),
+      );
+      print(resp.statusCode);
+    } catch (e) {
+      print('에러');
+      throw Exception(e);
+    }
+  }
+
+
+  Future<void> imageupload(imageFile) async {
+    Dio dio = Dio();
+
+    try {
+      FormData formData = FormData.fromMap({
+        "image": await MultipartFile.fromFile(imageFile.path, filename: "image.jpg"),
+      });
+
+      final resp = await dio.post(
+        "$baseUrl/upload",
+        data: formData,
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $accessToken",
+          },
+        ),
+      );
+      print(resp.statusCode);
+    } catch (e) {
+      print('에러');
+      throw Exception(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

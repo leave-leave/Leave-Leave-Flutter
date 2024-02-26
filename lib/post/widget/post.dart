@@ -4,8 +4,8 @@ import 'package:tteonatteona/post/widget/post_details.dart';
 import 'package:dio/dio.dart';
 import 'package:tteonatteona/secret.dart';
 import 'dart:convert';
-
 import '../model/post_check.dart';
+import 'package:tteonatteona/post/model/post_check.dart';
 
 class Post extends StatefulWidget {
   const Post({Key? key}) : super(key: key);
@@ -40,6 +40,7 @@ class _PostState extends State<Post> {
 
   Future<List<PostCheck>> fetchPosts() async {
     Dio dio = Dio();
+    List<PostCheck> posts = [];
 
     try {
       final resp = await dio.get(
@@ -51,20 +52,64 @@ class _PostState extends State<Post> {
           },
         ),
       );
+      if (resp.statusCode == 200) {
+        resp.data.forEach((item) {
+          posts.add(PostCheck.fromJson(item));
+        });
+        print('게시물 조회 성공');
+      } else {
+        print('게시물 조회 실패. 상태 코드: ${resp.statusCode}');
+      }
+    } catch (e) {
+      print('에러: $e');
+      throw Exception(e);
+    }
+
+    return posts;
+  }
+
+
+  Future<void> like(String feedId) async {
+    Dio dio = Dio();
+
+    try {
+      final resp = await dio.post(
+        "$baseUrl/likes/$feedId",
+        options: Options(
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $accessToken",
+          },
+        ),
+      );
       print(resp.statusCode);
 
-      List<PostCheck> posts = [];
-      for (var postData in resp.data) {
-        posts.add(PostCheck.fromJson(postData));
-      }
-
-      return posts;
     } catch (e) {
       print('에러');
       throw Exception(e);
     }
   }
 
+  Future<void> likedelete(String feedId) async {
+    Dio dio = Dio();
+
+    try {
+      final resp = await dio.delete(
+        "$baseUrl/likes/$feedId",
+        options: Options(
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $accessToken",
+          },
+        ),
+      );
+      print(resp.statusCode);
+
+    } catch (e) {
+      print('에러');
+      throw Exception(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

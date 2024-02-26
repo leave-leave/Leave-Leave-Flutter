@@ -1,10 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:tteonatteona/mypage/model/travel_check.dart';
 import 'package:tteonatteona/post/widget/post.dart';
 import 'package:tteonatteona/travelplane/widget/travelplane.dart';
 import 'package:tteonatteona/mypage/model/user_model.dart';
 import 'package:dio/dio.dart';
 import 'package:tteonatteona/secret.dart';
+
+import '../../post/model/post_check.dart';
 
 class MyPage extends StatefulWidget {
   final List<String> travelItems;
@@ -90,6 +93,63 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
       print('에러');
       throw Exception(e);
     }
+  }
+
+
+  Future<travel_check> getTravelCheck(String planId) async {
+    Dio dio = Dio();
+    travel_check travelCheck;
+
+    try {
+      final resp = await dio.get(
+        "$baseUrl/plans/$planId",
+        options: Options(
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $accessToken",
+          },
+        ),
+      );
+      if (resp.statusCode == 200) {
+        travelCheck = travel_check.fromJson(resp.data);
+        print('여행 계획 조회 성공');
+      } else {
+        print('여행 계획 조회 실패. 상태 코드: ${resp.statusCode}');
+      }
+    } catch (e) {
+      print('에러: $e');
+      throw Exception(e);
+    }
+
+    return travel_check();
+  }
+
+
+  Future<List<PostCheck>> fetchPostslike() async {
+    Dio dio = Dio();
+    List<PostCheck> posts = [];
+
+    try {
+      final resp = await dio.get(
+        "$baseUrl/feeds/like",
+        options: Options(
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $accessToken",
+          },
+        ),
+      );
+
+      List<dynamic> parsedJson = jsonDecode(resp.data);
+      posts = parsedJson
+          .where((json) => json['user_like'])
+          .map((json) => PostCheck.fromJson(json))
+          .toList();
+    } catch (e) {
+      print('에러: $e');
+      throw Exception(e);
+    }
+    return posts;
   }
 
 

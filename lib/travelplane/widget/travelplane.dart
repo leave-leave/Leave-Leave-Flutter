@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:tteonatteona/mypage/widget/mypage.dart';
-import 'package:tteonatteona/travelplane/model/travelplane_add.dart';
 import 'package:dio/dio.dart';
 import 'package:tteonatteona/secret.dart';
 import 'dart:convert';
+
+import 'package:tteonatteona/travelplane/model/travel_detail.dart';
 
 class TravelPlane extends StatefulWidget {
   const TravelPlane({Key? key}) : super(key: key);
@@ -52,6 +53,84 @@ class _TravelPlaneState extends State<TravelPlane> {
       throw Exception(e);
     }
   }
+
+
+  Future<void> plane_delete(String planId) async {
+    Dio dio = Dio();
+
+    try {
+      final resp = await dio.delete(
+        "$baseUrl/plans",
+        options: Options(
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $accessToken",
+          },
+        ),
+      );
+      print(resp.statusCode);
+
+    } catch (e) {
+      print('에러');
+      throw Exception(e);
+    }
+  }
+
+
+  Future<traveldetail> createTravelDetail(String planId, traveldetail travelDetail) async {
+    Dio dio = Dio();
+
+    try {
+      final resp = await dio.post(
+        "$baseUrl/todo/$planId",
+        options: Options(
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $accessToken",
+          },
+        ),
+        data: travelDetail.toJson(),
+      );
+      if (resp.statusCode == 200 || resp.statusCode == 201) {
+        print('여행 세부 사항 생성 성공');
+      } else {
+        print('여행 세부 사항 생성 실패. 상태 코드: ${resp.statusCode}');
+      }
+    } catch (e) {
+      print('에러: $e');
+      throw Exception(e);
+    }
+
+    return travelDetail;
+  }
+
+
+  Future<void> traveldetaildelete(String todoId) async {
+    Dio dio = Dio();
+
+    try {
+      final resp = await dio.delete(
+        "$baseUrl/plans/$todoId",
+        options: Options(
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $accessToken",
+          },
+        ),
+      );
+      print(resp.statusCode);
+
+    } catch (e) {
+      print('에러');
+      throw Exception(e);
+    }
+  }
+
+
+
+
+
+
 
 
   Future<void> _selectDate(BuildContext context, bool isStartDate) async {

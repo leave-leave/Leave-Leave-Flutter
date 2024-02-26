@@ -2,19 +2,54 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:tteonatteona/secret.dart';
 import 'dart:convert';
+import 'package:tteonatteona/question/model/question.dart';
 
 class question extends StatelessWidget {
   const question({Key? key}) : super(key: key);
 
 
-  Future<void> questionList() async {
+  Future<List<QuestionList>> getQuestionList() async {
     Dio dio = Dio();
-
-    Map<String, dynamic> data = {
-    };
+    List<QuestionList> questionList = [];
 
     try {
       final resp = await dio.get(
+        "$baseUrl/question",
+        options: Options(
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $accessToken",
+          },
+        ),
+      );
+      if (resp.statusCode == 200) {
+        resp.data.forEach((item) {
+          questionList.add(QuestionList.fromJson(item));
+        });
+        print('질문 목록 조회 성공');
+      } else {
+        print('질문 목록 조회 실패. 상태 코드: ${resp.statusCode}');
+      }
+    } catch (e) {
+      print('에러: $e');
+      throw Exception(e);
+    }
+
+    return questionList;
+  }
+
+
+
+  Future<void> question_answer(String questionId, String questionAnswer) async {
+    Dio dio = Dio();
+
+    Map<String, dynamic> data = {
+      "questionId" : questionId,
+      "questionAnswer" : questionAnswer
+    };
+
+    try {
+      final resp = await dio.post(
         "$baseUrl/question",
         options: Options(
           headers: {
@@ -64,7 +99,7 @@ class question extends StatelessWidget {
           ),
           Image.asset('assets/images/question.png'),
           SizedBox(height: 12),
-          questionlist(),
+          questionList(),
           SizedBox(height: 24),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),
@@ -95,8 +130,8 @@ class question extends StatelessWidget {
 }
 
 
-class questionlist extends StatelessWidget {
-  const questionlist({Key? key}) : super(key: key);
+class questionList extends StatelessWidget {
+  const questionList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
