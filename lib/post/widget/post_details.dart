@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'dart:convert';
 import 'package:tteonatteona/secret.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PostDetails extends StatefulWidget {
   const PostDetails({Key? key}) : super(key: key);
@@ -11,10 +12,45 @@ class PostDetails extends StatefulWidget {
 }
 
 class _PostDetailsState extends State<PostDetails> {
-  int likeCount = 12;
+  int likeCount = 13;
   bool isLiked = false;
   TextEditingController commentController = TextEditingController();
   List<String> comments = [];
+
+
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadComments();
+    _loadLikeStatus();
+  }
+
+  Future<void> _loadComments() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      comments = prefs.getStringList('comments') ?? [];
+    });
+  }
+
+  Future<void> _loadLikeStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isLiked = prefs.getBool('isLiked') ?? false;
+    });
+  }
+
+  Future<void> saveComments() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList('comments', comments); // 댓글 저장
+  }
+
+  Future<void> saveLikeStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isLiked', isLiked);
+  }
 
 
   Future<void> comment(String feedId, String comment) async {
@@ -63,30 +99,6 @@ class _PostDetailsState extends State<PostDetails> {
     }
   }
 
-
-  Future<void> imageupload(imageFile) async {
-    Dio dio = Dio();
-
-    try {
-      FormData formData = FormData.fromMap({
-        "image": await MultipartFile.fromFile(imageFile.path, filename: "image.jpg"),
-      });
-
-      final resp = await dio.post(
-        "$baseUrl/upload",
-        data: formData,
-        options: Options(
-          headers: {
-            "Authorization": "Bearer $accessToken",
-          },
-        ),
-      );
-      print(resp.statusCode);
-    } catch (e) {
-      print('에러');
-      throw Exception(e);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -162,6 +174,7 @@ class _PostDetailsState extends State<PostDetails> {
                           } else {
                             likeCount--;
                           }
+                          saveLikeStatus();
                         });
                       },
                       icon: isLiked
@@ -171,7 +184,12 @@ class _PostDetailsState extends State<PostDetails> {
                     Text(likeCount.toString()),
                     IconButton(
                       onPressed: () {
-                        // Add functionality for comments button
+                        setState(() {
+                          comments.add(commentController.text);
+                          commentController.clear();
+                          saveComments();
+                          likeCount = comments.length;
+                        });
                       },
                       icon: Icon(Icons.mode_comment_outlined, size: 24, color: Colors.blue),
                     )
@@ -232,11 +250,12 @@ class _PostDetailsState extends State<PostDetails> {
                         height: 30,
                         margin: EdgeInsets.only(right: 34),
                         child: TextButton(
-                          onPressed: () {
+                          onPressed: () async {
                             setState(() {
                               comments.add(commentController.text);
                               commentController.clear();
                             });
+                            await saveComments();
                           },
                           style: TextButton.styleFrom(
                             backgroundColor: Color(0xff3792FD),
