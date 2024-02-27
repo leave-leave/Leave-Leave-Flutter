@@ -177,73 +177,6 @@ class _SignupScreenState extends State<SignupScreen> {
             children: [
               SizedBox(width: 35),
               Text(
-                '아이디',
-                style: TextStyle(
-                  fontSize: 12,
-                  fontFamily: "Noto Sans KR",
-                  color: Colors.black,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 4),
-          Container(
-            width: 349,
-            height: 35,
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: idController,
-                    style: TextStyle(
-                      fontSize: 12,
-                    ),
-                    decoration: InputDecoration(
-                      hintText: "영문과 숫자 필수(8자 ~ 15자)",
-                      hintStyle: TextStyle(
-                        fontFamily: "Noto Sans KR",
-                        color: SignupScreen.fieldtextColor,
-                      ),
-                      filled: true,
-                      fillColor: SignupScreen.backgroundfieldColor,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 4),
-                TextButton(
-                  onPressed: () {},
-                  style: TextButton.styleFrom(
-                    backgroundColor: SignupScreen.blueColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)),
-                  ),
-                  child: Container(
-                    width: 65,
-                    height: 35,
-                    child: Center(
-                      child: Text(
-                        '중복 확인',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontFamily: "Noto Sans KR",
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 32),
-          Row(
-            children: [
-              SizedBox(width: 35),
-              Text(
                 '비밀번호',
                 style: TextStyle(
                   fontSize: 12,
@@ -329,41 +262,45 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
             ),
           ),
-          //SizedBox(height: 110),
-          Container(
-            width: 337,
-            height: 40,
-            child: TextButton(
-              onPressed: () async {
-
-                try {
-                  await postSignup(
-                    context,
-                    nameController.text,
-                    phoneNumberController.text,
-                    idController.text,
-                    pwdController.text,
-                  );
-                } catch (e) {
-                  print('Failed to sign up: $e');
-                }
-
-              },
-              child: Text(
-                '회원가입',
-                style: TextStyle(
-                  color: SignupScreen.tteonatteonawhiteColor,
-                  fontFamily: 'NotoSansKR',
+          SizedBox(height: 170),
+          BottomSheet(
+            onClosing: () {},
+            builder: (BuildContext context) {
+              return Container(
+                width: 341,
+                height: 40,
+                child: TextButton(
+                  onPressed: () async {
+                    try {
+                      await postSignup(
+                        context,
+                        nameController.text,
+                        phoneNumberController.text,
+                        idController.text,
+                        pwdController.text,
+                      );
+                    } catch (e) {
+                      print('Failed to sign up: $e');
+                    }
+                  },
+                  child: Text(
+                    '회원가입',
+                    style: TextStyle(
+                      color: SignupScreen.tteonatteonawhiteColor,
+                      fontFamily: 'NotoSansKR',
+                    ),
+                  ),
+                  style: TextButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)
+                    ),
+                    backgroundColor: SignupScreen.blueColor,
+                    padding: EdgeInsets.symmetric(horizontal: 50.0),
+                  ),
                 ),
-              ),
-              style: TextButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0)),
-                backgroundColor: SignupScreen.blueColor,
-                padding: EdgeInsets.symmetric(horizontal: 50.0),
-              ),
-            ),
-          ),
+              );
+            },
+          )
         ],
       ),
     );
