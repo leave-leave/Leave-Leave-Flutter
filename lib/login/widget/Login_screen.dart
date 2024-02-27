@@ -140,28 +140,42 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
-          //SizedBox(height: 315),
-          Container(
-            width: 337,
-            height: 40,
-            child: TextButton(
-              onPressed: () async {
-                await postLoginInfo(idController.text, pwdController.text);
-              },
-              child: const Text(
-                '로그인',
-                style: TextStyle(
-                  color: LoginScreen.tteonatteonawhiteColor,
-                  fontFamily: 'NotoSansKR',
+          SizedBox(height: 310),
+          BottomSheet(
+            onClosing: () {},
+            builder: (BuildContext context) {
+              return Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: Container(
+                  width: 337,
+                  height: 40,
+                  child: TextButton(
+                    onPressed: () async {
+                      await postLoginInfo(idController.text, pwdController.text);
+                    },
+                    child: const Text(
+                      '로그인',
+                      style: TextStyle(
+                        color: LoginScreen.tteonatteonawhiteColor,
+                        fontFamily: 'NotoSansKR',
+                      ),
+                    ),
+                    style: TextButton.styleFrom(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                      backgroundColor: LoginScreen.blueColor,
+                      padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                    ),
+                  ),
                 ),
-              ),
-              style: TextButton.styleFrom(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-                backgroundColor: LoginScreen.blueColor,
-                padding: const EdgeInsets.symmetric(horizontal: 50.0),
-              ),
-            ),
-          ),
+              );
+            },
+          )
+
+
+
+
         ],
       ),
     );
