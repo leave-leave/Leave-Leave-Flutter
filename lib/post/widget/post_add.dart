@@ -45,6 +45,30 @@ class _PostAddState extends State<PostAdd> {
     }
   }
 
+  Future<void> imageupload(imageFile) async {
+    Dio dio = Dio();
+
+    try {
+      FormData formData = FormData.fromMap({
+        "image": await MultipartFile.fromFile(imageFile.path, filename: "image.jpg"),
+      });
+
+      final resp = await dio.post(
+        "$baseUrl/upload",
+        data: formData,
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $accessToken",
+          },
+        ),
+      );
+      print(resp.statusCode);
+    } catch (e) {
+      print('에러');
+      throw Exception(e);
+    }
+  }
+
   Future<void> postContent(
     String title,
     String content,
@@ -71,6 +95,10 @@ class _PostAddState extends State<PostAdd> {
       );
       print(resp.statusCode);
       print(jsonEncode(data));
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Post()),
+      );
     } catch (e) {
       print('에러');
       throw Exception(e);
@@ -114,7 +142,7 @@ class _PostAddState extends State<PostAdd> {
           Center(
             child: Container(
               width: 364,
-              height: 730,
+              height: 740,
               decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(4)),
               child: Column(
@@ -214,7 +242,7 @@ class _PostAddState extends State<PostAdd> {
                       SizedBox(width: 10),
                       Container(
                         width: 254,
-                        height: 140,
+                        height: 300,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
                           border: Border.all(color: Colors.grey),
@@ -237,29 +265,42 @@ class _PostAddState extends State<PostAdd> {
                       ),
                     ],
                   ),
-                  Container(
-                    padding: EdgeInsets.only(left: 240),
-                    child: ElevatedButton(
-                        onPressed: () async {
-                          print(titleController.text);
-                          print(contentController.text);
-                          await postContent(titleController.text, contentController.text, "dsdsd");
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xff3792FD),
-                          minimumSize: Size(90, 48),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                  SizedBox(height: 20),
+                  BottomSheet(
+                    onClosing: () {},
+                    builder: (BuildContext context) {
+                      return Positioned(
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        child: Container(
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              print(titleController.text);
+                              print(contentController.text);
+                              await postContent(titleController.text, contentController.text, "dsdsd");
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color(0xff3792FD),
+                              minimumSize: Size(90, 48),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            child: Text(
+                              '등록',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'Noto Sans KR',
+                                color: Colors.white,
+                              ),
+                            ),
                           ),
                         ),
-                        child: Text(
-                          '등록',
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: 'Noto Sans KR',
-                              color: Colors.white),
-                        )),
+                      );
+                    },
                   )
+
                 ],
               ),
             ),
