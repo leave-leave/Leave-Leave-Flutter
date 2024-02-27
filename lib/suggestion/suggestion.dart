@@ -10,6 +10,22 @@ class suggestion extends StatefulWidget {
 
 class _SuggestionState extends State<suggestion> {
 
+  final List<String> travelDestinations = [
+    '일본 오사카',
+    '프랑스 파리',
+    '이탈리아 로마',
+    '태국 방콕',
+    '포르투갈 리스본',
+    '체코 프라하',
+    '칠레 산티아고',
+    '이집트 카이로',
+    '스위스 베른',
+    '베트남 호이안',
+    '스페인 바르셀로나',
+    '노르웨이 오슬로',
+    '네덜란드 암스테르담'
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,9 +56,12 @@ class _SuggestionState extends State<suggestion> {
             Expanded(
               child: ListView.builder(
                 padding: EdgeInsets.only(top: 0, bottom: 0, left: 20, right: 20),
-                itemCount: 25,
+                itemCount: travelDestinations.length,
                 itemBuilder: (context, index) {
-                  return CustomListItem(index: index);
+                  return CustomListItem(
+                    index: index,
+                    travelDestination: travelDestinations[index],
+                  );
                 },
               ),
             ),
@@ -55,8 +74,13 @@ class _SuggestionState extends State<suggestion> {
 
 class CustomListItem extends StatelessWidget {
   final int index;
+  final String travelDestination;
 
-  const CustomListItem({Key? key, required this.index}) : super(key: key);
+  const CustomListItem({
+    Key? key,
+    required this.index,
+    required this.travelDestination,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +98,7 @@ class CustomListItem extends StatelessWidget {
           child: Image.asset('assets/images/listimg.png'),
         ),
         title: Text(
-          '일본 오사카',
+          travelDestination,
           style: TextStyle(
             fontWeight: FontWeight.w500,
             fontFamily: 'Noto Sans KR',
