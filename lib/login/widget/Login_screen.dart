@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tteonatteona/home/widget/home.dart';
 import 'package:tteonatteona/main/widget/main_screen.dart';
 import 'package:tteonatteona/secret.dart';
 import 'dart:convert';
@@ -76,9 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Center(
             child: Image.asset('assets/images/Login.png'),
           ),
-
           const SizedBox(height: 75),
-
           Container(
             width: 337,
             height: 42,
@@ -140,7 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
-          SizedBox(height: 310),
+          SizedBox(height: 309),
           BottomSheet(
             onClosing: () {},
             builder: (BuildContext context) {
@@ -172,9 +171,6 @@ class _LoginScreenState extends State<LoginScreen> {
               );
             },
           )
-
-
-
 
         ],
       ),
