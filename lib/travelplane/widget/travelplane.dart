@@ -4,8 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:tteonatteona/secret.dart';
 import 'dart:convert';
 
-import 'package:tteonatteona/travelplane/model/travel_detail.dart';
-
 class TravelPlane extends StatefulWidget {
   const TravelPlane({Key? key}) : super(key: key);
 
@@ -14,11 +12,14 @@ class TravelPlane extends StatefulWidget {
 }
 
 class _TravelPlaneState extends State<TravelPlane> {
+
+  late String title;
   DateTime? startDate;
   DateTime? endDate;
   TextEditingController textFieldController = TextEditingController();
-  List<String> travelItems = [];
+  List<String> traveldetail = [];
 
+  bool isPlanCompleted = false;
 
   Future<void> plane_add(
       String userId,
@@ -77,7 +78,7 @@ class _TravelPlaneState extends State<TravelPlane> {
   }
 
 
-  Future<traveldetail> createTravelDetail(String planId, traveldetail travelDetail) async {
+  Future<List> createTravelDetail(String planId,List<String> travelDetail) async {
     Dio dio = Dio();
 
     try {
@@ -89,7 +90,7 @@ class _TravelPlaneState extends State<TravelPlane> {
             "Authorization": "Bearer $accessToken",
           },
         ),
-        data: travelDetail.toJson(),
+        data: jsonEncode({"travelDetail": travelDetail}),
       );
       if (resp.statusCode == 200 || resp.statusCode == 201) {
         print('여행 세부 사항 생성 성공');
@@ -127,12 +128,6 @@ class _TravelPlaneState extends State<TravelPlane> {
   }
 
 
-
-
-
-
-
-
   Future<void> _selectDate(BuildContext context, bool isStartDate) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -151,14 +146,20 @@ class _TravelPlaneState extends State<TravelPlane> {
     }
   }
 
-  void addItemToList() {
+  void adddetailToList() {
     String newItem = textFieldController.text.trim();
     if (newItem.isNotEmpty) {
       setState(() {
-        travelItems.add(newItem);
+        traveldetail.add(newItem);
         textFieldController.clear();
       });
     }
+  }
+
+  void removedetail(int index) {
+    setState(() {
+      traveldetail.removeAt(index);
+    });
   }
 
   @override
@@ -174,9 +175,7 @@ class _TravelPlaneState extends State<TravelPlane> {
               SizedBox(width: 10),
               IconButton(
                 onPressed: () {
-                  Navigator.pop(context, MaterialPageRoute(
-                    builder: (context) => MyPage(travelItems: travelItems),
-                  ),);
+                  Navigator.pop(context);
                 },
                 icon: Icon(Icons.arrow_back, size: 20),
               ),
@@ -217,6 +216,11 @@ class _TravelPlaneState extends State<TravelPlane> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: TextField(
+                    onChanged: (value) {
+                      setState(() {
+                        title = value;
+                      });
+                    },
                     textAlign: TextAlign.left,
                     decoration: InputDecoration(
                       hintText: '여행할 장소를 입력하세요',
@@ -292,12 +296,11 @@ class _TravelPlaneState extends State<TravelPlane> {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-
                 SizedBox(height: 10),
                 Row(
                   children: [
                     IconButton(
-                      onPressed: addItemToList,
+                      onPressed: adddetailToList,
                       icon: Icon(Icons.add),
                       color: Color(0xff3792FD),
                     ),
@@ -305,9 +308,9 @@ class _TravelPlaneState extends State<TravelPlane> {
                       child: Container(
                         margin: EdgeInsets.only(right: 22),
                         width: 287,
-                        height: 40,
+                        height: 54,
                         decoration: BoxDecoration(
-                          color: Color(0xffB8D1FE),
+                          color: Color(0xffEBEBEB),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: TextField(
@@ -327,31 +330,35 @@ class _TravelPlaneState extends State<TravelPlane> {
                 ),
                 Expanded(
                   child: ListView.builder(
-                    itemCount: travelItems.length,
+                    itemCount: traveldetail.length,
                     itemBuilder: (context, index) {
                       return Container(
-                        width: 287,
                         height: 54,
-                        margin: EdgeInsets.only(left: 22, right: 23, bottom: 24),
+                        margin: EdgeInsets.only(left: 10, right: 27, bottom: 24),
                         decoration: BoxDecoration(
-                          color: Color(0xffB8D1FE),
+                          color: Color(0xffEBEBEB),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: ListTile(
+                          contentPadding: EdgeInsets.only(left: 16, right: 10),
+                          trailing: IconButton(
+                            icon: Icon(Icons.delete, size : 25, color: Color(0xff53A8F7)),
+                            onPressed: () {
+                              removedetail(index);
+                            },
+                          ),
                           title: Text(
-                            travelItems[index],
+                            traveldetail[index],
                             style: TextStyle(
                               fontSize: 16,
                               color: Colors.black,
                             ),
                           ),
-                          leading: Icon(Icons.check_circle, color: Color(0xff53A8F7)),
                         ),
                       );
                     },
                   ),
                 ),
-
               ],
             ),
           ),
@@ -401,8 +408,19 @@ class _TravelPlaneState extends State<TravelPlane> {
             height: 40,
             child: TextButton(
               onPressed: () {
-
-                Navigator.pop(context);
+                setState(() {
+                  isPlanCompleted = true;
+                });
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MyPage(
+                      title: title,
+                      startDate: startDate,
+                      endDate: endDate,
+                      traveldetail : traveldetail
+                    ),
+                  ),);
               },
               child: Text(
                 '계획 완료',

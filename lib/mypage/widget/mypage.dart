@@ -6,17 +6,19 @@ import 'package:tteonatteona/travelplane/widget/travelplane.dart';
 import 'package:tteonatteona/mypage/model/user_model.dart';
 import 'package:dio/dio.dart';
 import 'package:tteonatteona/secret.dart';
-
-import '../../post/model/post_check.dart';
+import 'package:tteonatteona/post/model/post_check.dart';
 
 class MyPage extends StatefulWidget {
-  final List<String> travelItems;
+  final String title;
   final DateTime? startDate;
   final DateTime? endDate;
+  final List<String> traveldetail;
 
-  const MyPage({Key? key, required this.travelItems,
+  const MyPage({Key? key,
+    required this.title,
     this.startDate,
-    this.endDate,}) : super(key: key);
+    this.endDate, required this.traveldetail,
+    }) : super(key: key);
 
   @override
   State<MyPage> createState() => _MyPageState();
@@ -35,7 +37,7 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
     _tabController = TabController(length: 2, vsync: this);
   }
 
-  List<String> get travelItems => widget.travelItems;
+  List<String> get travelItems => widget.traveldetail;
 
   Future userInfo() async{
 
@@ -248,6 +250,8 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
     );
   }
 
+
+
   Widget buildTravelPlanWidget() {
     return Column(
       children: [
@@ -281,10 +285,73 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
             ),
           ),
         ),
-        SizedBox(height: 16),
+        SizedBox(height: 20),
+        Container(
+          width: 363,
+          height: 456,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10)
+          ),
+          child: Column(
+            children: [
+              // Text(title ?? '', style: TextStyle(
+              //   fontSize: 14
+              // ),
+              // ),
+              Padding(
+                padding: EdgeInsets.only(left: 17),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    '할 일',
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black,
+                        fontFamily: 'Noto Sans KR'
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(child: ListView.builder(
+                padding: EdgeInsets.only(top: 0),
+                shrinkWrap: true,
+                itemCount: travelItems.length,
+                itemBuilder: (context, index) {
+                  return Row(
+                    children: [
+                      SizedBox(width: 28),
+                      Icon(Icons.brightness_1, size: 12, color: Color(0xff699BF7),),
+                      SizedBox(width: 10),
+                      Container(
+                        width: 277,
+                        height: 59,
+                        margin: EdgeInsets.symmetric(vertical: 18),
+                        padding: EdgeInsets.symmetric(horizontal: 19),
+                        decoration: BoxDecoration(
+                          color: Color(0xffEBEBEB),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        alignment: Alignment.centerLeft,
+                          child: Text(
+                            travelItems[index],
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ),
+                      ],
+                    );
+                    },
+              )
+              )
+            ],
+          ),
+        )
       ],
     );
   }
+
+
 
   Widget buildReactedPostsWidget() {
     return Container(
@@ -376,7 +443,7 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
           fontSize: 20,
           color: Color(0xff83ACF9),
           fontWeight: FontWeight.w600,
-          fontFamily: 'Noto Snas KR',
+          fontFamily: 'Noto Sans KR',
         ),
       ),
     );

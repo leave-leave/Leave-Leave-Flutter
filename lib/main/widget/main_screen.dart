@@ -15,10 +15,10 @@ class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
   final List<Widget> _navIndex = [
-    Home(),
-    Post(),
-    suggestion(),
-    MyPage(travelItems: [],),
+    const Home(),
+    const Post(),
+    const suggestion(),
+    const MyPage(title: '', traveldetail: [],),
   ];
 
   @override
@@ -26,32 +26,32 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       body: _navIndex[_selectedIndex],
       bottomNavigationBar: ClipRRect(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
         child: BottomNavigationBar(
           currentIndex: _selectedIndex,
           onTap: _onNavTapped,
           type: BottomNavigationBarType.fixed,
           showUnselectedLabels: false,
           showSelectedLabels: false,
-          selectedItemColor: Color(0xff3792FD),
-          unselectedItemColor: Color(0xff616161),
+          selectedItemColor: const Color(0xff3792FD),
+          unselectedItemColor: const Color(0xff616161),
           items: [
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
               label: '',
               icon: Icon(Icons.home_filled),
               activeIcon: Icon(Icons.home_filled),
             ),
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
               label: '',
               icon: Icon(Icons.feed),
               activeIcon: Icon(Icons.feed),
             ),
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
               label: '',
               icon: Icon(Icons.thumb_up_off_alt),
               activeIcon: Icon(Icons.thumb_up_off_alt),
             ),
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
               label: '',
               icon: Icon(Icons.person),
               activeIcon: Icon(Icons.person),
