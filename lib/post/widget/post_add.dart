@@ -6,6 +6,7 @@ import 'package:tteonatteona/post/widget/post.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tteonatteona/post/widget/post_upload_complete.dart';
 import 'package:tteonatteona/secret.dart';
+import 'package:dotted_border/dotted_border.dart';
 
 class PostAdd extends StatefulWidget {
   const PostAdd({Key? key}) : super(key: key);
@@ -69,11 +70,7 @@ class _PostAddState extends State<PostAdd> {
     }
   }
 
-  Future<void> postContent(
-    String title,
-    String content,
-    String imageUrl,
-  ) async {
+  Future<void> postContent(String title, String content, String imageUrl,) async {
     Dio dio = Dio();
 
     Map<String, dynamic> data = {
@@ -97,7 +94,7 @@ class _PostAddState extends State<PostAdd> {
       print(jsonEncode(data));
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => Post()),
+        MaterialPageRoute(builder: (context) => Post(imageUrl: '', title: '', content: '',)),
       );
     } catch (e) {
       print('에러');
@@ -122,7 +119,6 @@ class _PostAddState extends State<PostAdd> {
                 onPressed: () {
                   Navigator.pop(
                     context,
-                    MaterialPageRoute(builder: (context) => Post()),
                   );
                 },
                 icon: Icon(Icons.arrow_back, size: 20),
@@ -152,56 +148,61 @@ class _PostAddState extends State<PostAdd> {
                   Container(
                     width: 296,
                     height: 230,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Color(0xff000000),
-                        width: 0.5,
-                      ),
-                      color: Color(0xffd9d9d9),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        _displayImage != null
-                            ? SizedBox(
-                                width: 296,
-                                height: 220,
-                                child: FittedBox(
-                                  fit: BoxFit.contain,
-                                  child: _displayImage,
-                                ),
-                              )
-                            : Icon(Icons.image,
-                                size: 35, color: Color(0xff699BF7)),
-                        SizedBox(height: 5),
-                        AnimatedContainer(
-                          duration: Duration(milliseconds: 300),
-                          width: 100,
-                          height: _isImageUploaded ? 0 : 40,
-                          child: ElevatedButton(
-                            onPressed: pickImage,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              elevation: 0,
+                    color: Color(0xffd9d9d9),
+                    child: DottedBorder(
+                      borderType: BorderType.RRect,
+                      radius: Radius.circular(4),
+                      color: Color(0xff000000),
+                      strokeWidth: 1,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(width: 290),
+                          _displayImage != null ? SizedBox(
+                            width: 296,
+                            height: 220,
+                            child: FittedBox(
+                              fit: BoxFit.contain,
+                              child: _displayImage,
                             ),
-                            child: Text(
-                              '사진추가',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: 'Noto Sans Kr',
-                              ),
+                          ) : Icon(Icons.image, size: 35, color: Color(0xff699BF7)),
+                          SizedBox(height: 5),
+                          AnimatedContainer(
+                            duration: Duration(milliseconds: 300),
+                            width: 100,
+                            height: _isImageUploaded ? 0 : 40,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                ElevatedButton(
+                                  onPressed: pickImage,
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    elevation: 0,
+                                  ),
+                                  child: Text(
+                                    '사진추가',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: 'Noto Sans Kr',
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
+
                   SizedBox(height: 19),
                   Row(
                     children: [
@@ -219,9 +220,11 @@ class _PostAddState extends State<PostAdd> {
                         child: TextField(
                           controller: titleController,
                           textAlign: TextAlign.start,
+                          maxLines: 2,
                           decoration: InputDecoration(
                             hintText: '제목을 입력하세요',
                             hintStyle: TextStyle(
+                              height: 1.0,
                               fontSize: 13,
                               color: Color(0xffd9d9d9),
                               fontFamily: 'Noto Sans KR',
@@ -250,6 +253,7 @@ class _PostAddState extends State<PostAdd> {
                         child: TextField(
                           controller: contentController,
                           textAlign: TextAlign.start,
+                          maxLines: null,
                           decoration: InputDecoration(
                             hintText: '내용을 입력하세요',
                             hintStyle: TextStyle(
@@ -258,49 +262,52 @@ class _PostAddState extends State<PostAdd> {
                               fontFamily: 'Noto Sans KR',
                               fontWeight: FontWeight.w500,
                             ),
-                            contentPadding: EdgeInsets.fromLTRB(16.0, 0, 0, 0),
+                            contentPadding: EdgeInsets.fromLTRB(11.0, 6.0, 0, 12.0),
                             border: InputBorder.none,
                           ),
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
-                  BottomSheet(
-                    onClosing: () {},
-                    builder: (BuildContext context) {
-                      return Positioned(
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        child: Container(
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              print(titleController.text);
-                              print(contentController.text);
-                              await postContent(titleController.text, contentController.text, "dsdsd");
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xff3792FD),
-                              minimumSize: Size(90, 48),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
+                  SizedBox(height: 22),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () async {
+                          print(titleController.text);
+                          print(contentController.text);
+                          String imageUrl = "여기에 이미지 URL 입력";
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Post(
+                                imageUrl: imageUrl,
+                                title: titleController.text,
+                                content: contentController.text,
                               ),
                             ),
-                            child: Text(
-                              '등록',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'Noto Sans KR',
-                                color: Colors.white,
-                              ),
-                            ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xff3792FD),
+                          minimumSize: Size(90, 48),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
                           ),
                         ),
-                      );
-                    },
-                  )
-
+                        child: Text(
+                          '등록',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'Noto Sans KR',
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 20),
+                    ],
+                  ),
                 ],
               ),
             ),

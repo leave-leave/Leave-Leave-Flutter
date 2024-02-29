@@ -5,9 +5,17 @@ import 'package:dio/dio.dart';
 import 'package:tteonatteona/secret.dart';
 import '../model/post_check.dart';
 
-
 class Post extends StatefulWidget {
-  const Post({Key? key}) : super(key: key);
+  final String imageUrl;
+  final String title;
+  final String content;
+
+  const Post({
+    Key? key,
+    required this.imageUrl,
+    required this.title,
+    required this.content,
+  }) : super(key: key);
 
   @override
   State<Post> createState() => _PostState();
@@ -48,7 +56,6 @@ class _PostState extends State<Post> {
     List<PostCheck> posts = [];
 
     try {
-      List<PostCheck> posts = await fetchPosts();
       final resp = await dio.get(
         "$baseUrl/feeds",
         options: Options(
@@ -72,49 +79,6 @@ class _PostState extends State<Post> {
     }
 
     return posts;
-  }
-
-
-  Future<void> like(String feedId) async {
-    Dio dio = Dio();
-
-    try {
-      final resp = await dio.post(
-        "$baseUrl/likes/$feedId",
-        options: Options(
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer $accessToken",
-          },
-        ),
-      );
-      print(resp.statusCode);
-
-    } catch (e) {
-      print('에러');
-      throw Exception(e);
-    }
-  }
-
-  Future<void> likedelete(String feedId) async {
-    Dio dio = Dio();
-
-    try {
-      final resp = await dio.delete(
-        "$baseUrl/likes/$feedId",
-        options: Options(
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer $accessToken",
-          },
-        ),
-      );
-      print(resp.statusCode);
-
-    } catch (e) {
-      print('에러');
-      throw Exception(e);
-    }
   }
 
   @override
@@ -152,90 +116,81 @@ class _PostState extends State<Post> {
               ),
             ],
           ),
-          SizedBox(height: 10),
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => PostDetails()),
-              );
-            },
-            child: Container(
-              height: 375,
-              margin: EdgeInsets.only(left: 24, right: 24),
-              color: Colors.white,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 16),
-                  Row(
-                    children: [
-                      SizedBox(width: 16),
-                      Icon(
-                        Icons.account_circle,
-                        color: Color(0xff2B8AFB),
-                      ),
-                      SizedBox(width: 8),
-                      Text(
-                        '서예린',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
+          Expanded(
+            child: FutureBuilder<List<PostCheck>>(
+              future: fetchPosts(),
+              builder: (context, index) {
+                  return ListView.builder(
+                    padding: EdgeInsets.only(top: 4),
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => PostDetails()),
+                          );
+                        },
+                        child: Container(
+                          height: 375,
+                          margin: EdgeInsets.only(left: 24, right: 24, bottom: 22),
+                          padding: EdgeInsets.only(left: 33, right: 33),
+                          color: Colors.white,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 12),
+                              Row(
+                                children: [
+                                  Icon(Icons.account_circle_outlined, size: 30, color: Color(0xff2B8AFB),),
+                                  SizedBox(width : 8),
+                                  Text('서예린'),
+                                  SizedBox(width: 190),
+                                  Icon(Icons.delete, color: Color(0xff2B8AFB),)
+                                ],
+                              ),
+                              SizedBox(height: 9),
+                              Image.network(widget.imageUrl),
+                              SizedBox(height: 2),
+                              Row(
+                                children: [
+                                  IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        isLiked = !isLiked;
+                                        if (isLiked) {
+                                          likeCount++;
+                                        } else {
+                                          likeCount--;
+                                        }
+                                      });
+                                    },
+                                    icon: Icon(
+                                      isLiked ? Icons.favorite : Icons.favorite_border,
+                                      size: 24,
+                                      color: isLiked ? Color(0xff2B8AFB): null,
+                                    ),
+                                  ),
+                                  Icon(Icons.mode_comment_outlined, size: 24),
+                                ],
+                              ),
+                              Text(
+                                widget.title,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(height: 5),
+                              Text(widget.content),
+                            ],
+                          ),
                         ),
-                      ),
-                      SizedBox(width: 220),
-                      Icon(Icons.delete)
-                    ],
-                  ),
-                  SizedBox(height: 16),
-                  Padding(
-                    padding: EdgeInsets.only(left: 34),
-                    child: Image.asset('assets/images/post.png'),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(width: 30),
-                      IconButton(
-                        onPressed: () {
-                          setState(() {
-                            isLiked = !isLiked;
-                            if (isLiked) {
-                              likeCount++;
-                            } else {
-                              likeCount--;
-                            }
-                          });
-                        },
-                        icon: isLiked
-                            ? Icon(Icons.favorite, size: 24, color: Colors.blue)
-                            : Icon(Icons.favorite_border,
-                            size: 24, color: Colors.blue),
-                      ),
-                      Text(likeCount.toString()),
-                      IconButton(
-                        onPressed: () {
-                          // Add functionality for comments button
-                        },
-                        icon: Icon(Icons.mode_comment_outlined,
-                            size: 24, color: Colors.blue),
-                      )
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 36),
-                    child: Text(
-                      '나는 영국에 왔어',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                      );
+                    },
+                  );
+              }
             ),
-          ),
+            ),
         ],
       ),
     );
