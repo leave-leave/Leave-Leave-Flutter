@@ -40,10 +40,12 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
   }
 
   void checkForPlans() {
+    bool planExist = widget.traveldetail.isNotEmpty;;
     setState(() {
-      hasPlans = true;
+      hasPlans = planExist;
     });
   }
+
 
   List<String> get travelIdetail => widget.traveldetail;
 
@@ -134,7 +136,6 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
     return travel_check();
   }
 
-
   Future<List<PostCheck>> fetchPostslike() async {
     Dio dio = Dio();
     List<PostCheck> posts = [];
@@ -161,7 +162,6 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
     }
     return posts;
   }
-
 
 
   @override
@@ -257,7 +257,6 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
       ),
     );
   }
-
 
 
   Widget buildTravelPlanWidget() {
@@ -470,7 +469,7 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
                     child: TextButton(
                       onPressed: () {
                         Navigator.push(context, 
-                        MaterialPageRoute(builder: (context) => const Post())
+                        MaterialPageRoute(builder: (context) => const Post(imageUrl: '', title: '', content: '',))
                         );
                       },
                       child: Text(
