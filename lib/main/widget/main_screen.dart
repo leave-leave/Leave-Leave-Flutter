@@ -16,7 +16,7 @@ class _MainScreenState extends State<MainScreen> {
 
   final List<Widget> _navIndex = [
     const Home(),
-    const Post(),
+    const Post(imageUrl: '', title: '', content: '',),
     const suggestion(),
     const MyPage(title: '', traveldetail: [],),
   ];
