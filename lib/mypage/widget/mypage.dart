@@ -7,6 +7,7 @@ import 'package:tteonatteona/mypage/model/user_model.dart';
 import 'package:dio/dio.dart';
 import 'package:tteonatteona/secret.dart';
 import 'package:tteonatteona/post/model/post_check.dart';
+import 'package:intl/intl.dart';
 
 class MyPage extends StatefulWidget {
   final String title;
@@ -27,7 +28,7 @@ class MyPage extends StatefulWidget {
 class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
 
   late TabController _tabController;
-  bool hasPlans = true;
+  bool hasPlans = false;
   bool hasReactedPosts = true;
   String? userName;
 
@@ -35,9 +36,16 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    checkForPlans();
   }
 
-  List<String> get travelItems => widget.traveldetail;
+  void checkForPlans() {
+    setState(() {
+      hasPlans = true;
+    });
+  }
+
+  List<String> get travelIdetail => widget.traveldetail;
 
   Future userInfo() async{
 
@@ -287,6 +295,7 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
         ),
         SizedBox(height: 20),
         Container(
+          padding: EdgeInsets.only(top: 12, bottom: 21),
           width: 363,
           height: 456,
           decoration: BoxDecoration(
@@ -295,10 +304,73 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
           ),
           child: Column(
             children: [
-              // Text(title ?? '', style: TextStyle(
-              //   fontSize: 14
-              // ),
-              // ),
+              Row(
+                children: [
+                  SizedBox(width: 17),
+                  Expanded(
+                    child: Text(
+                      widget.title,
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        hasPlans = false;
+                      });
+                    },
+                    child: Icon(Icons.delete, size: 24),
+                  ),
+                  SizedBox(width: 17),
+                ],
+              ),
+              SizedBox(height: 9),
+              Row(
+                children: [
+                  SizedBox(width: 17),
+                  GestureDetector(
+                    onTap: (){},
+                    child: Container(
+                      width: 147,
+                      height: 30,
+                      decoration: BoxDecoration(
+                        color: Color(0xffB8D1FE),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Center(
+                        child: Text(
+                          widget.startDate != null ? DateFormat('yyyy-MM-dd').format(widget.startDate!) : '',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 7),
+                  Icon(Icons.horizontal_rule),
+                  SizedBox(width: 7),
+                  GestureDetector(
+                    onTap: (){},
+                    child: Container(
+                      width: 147,
+                      height: 30,
+                      decoration: BoxDecoration(
+                        color: Color(0xffB8D1FE),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Center(
+                        child: Text(
+                          widget.endDate != null ? DateFormat('yyyy-MM-dd').format(widget.endDate!) : '',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 14),
               Padding(
                 padding: EdgeInsets.only(left: 17),
                 child: Align(
@@ -314,10 +386,10 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
                   ),
                 ),
               ),
+              SizedBox(height: 17,),
               Expanded(child: ListView.builder(
                 padding: EdgeInsets.only(top: 0),
-                shrinkWrap: true,
-                itemCount: travelItems.length,
+                itemCount: travelIdetail.length,
                 itemBuilder: (context, index) {
                   return Row(
                     children: [
@@ -327,7 +399,7 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
                       Container(
                         width: 277,
                         height: 59,
-                        margin: EdgeInsets.symmetric(vertical: 18),
+                        margin: EdgeInsets.only(bottom: 18),
                         padding: EdgeInsets.symmetric(horizontal: 19),
                         decoration: BoxDecoration(
                           color: Color(0xffEBEBEB),
@@ -335,7 +407,7 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
                         ),
                         alignment: Alignment.centerLeft,
                           child: Text(
-                            travelItems[index],
+                            widget.traveldetail[index],
                             style: TextStyle(fontSize: 16),
                           ),
                         ),
@@ -423,14 +495,50 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
 
   Widget buildNoPlansWidget() {
     return Center(
-      child: Text(
-        '여행 계획을 작성해 보실래요?',
-        style: TextStyle(
-          fontSize: 20,
-          color: Color(0xff83ACF9),
-          fontWeight: FontWeight.w600,
-          fontFamily: 'Noto Snas KR',
-        ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Container(
+              margin: EdgeInsets.only(top: 17),
+              padding: EdgeInsets.only(left: 24),
+              width: 200,
+              height: 35,
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => TravelPlane()));
+                },
+                child: Text(
+                  '계획 작성하기',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Color(0xffffffff),
+                    fontFamily: 'NotoSansKR',
+                  ),
+                ),
+                style: TextButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0)),
+                  backgroundColor: Color(0xff3792FD),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 183),
+          Text(
+            '여행 계획을 작성해 보실래요?',
+            style: TextStyle(
+              fontSize: 20,
+              color: Color(0xff83ACF9),
+              fontWeight: FontWeight.w600,
+              fontFamily: 'Noto Sans KR',
+            ),
+          ),
+        ],
       ),
     );
   }
