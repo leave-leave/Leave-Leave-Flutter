@@ -38,6 +38,7 @@ class _PostAddState extends State<PostAdd> {
         );
         _isImageUploaded = true;
       });
+      await uploadImageAndGetUrl(_pickedImage!.path);
     } else {
       setState(() {
         _displayImage = null;
@@ -46,12 +47,13 @@ class _PostAddState extends State<PostAdd> {
     }
   }
 
-  Future<void> imageupload(imageFile) async {
+
+  Future<void> uploadImageAndGetUrl(String imagePath) async {
     Dio dio = Dio();
 
     try {
       FormData formData = FormData.fromMap({
-        "image": await MultipartFile.fromFile(imageFile.path, filename: "image.jpg"),
+        "image": await MultipartFile.fromFile(imagePath, filename: "image.jpg"),
       });
 
       final resp = await dio.post(
@@ -63,6 +65,9 @@ class _PostAddState extends State<PostAdd> {
           },
         ),
       );
+
+      String imageUrl = resp.data["url"];
+      postContent(titleController.text, contentController.text, imageUrl);
       print(resp.statusCode);
     } catch (e) {
       print('에러');
@@ -78,7 +83,6 @@ class _PostAddState extends State<PostAdd> {
       "content": content,
       "imageUrl": imageUrl,
     };
-
     try {
       final resp = await dio.post(
         "$baseUrl/feeds",
@@ -94,7 +98,13 @@ class _PostAddState extends State<PostAdd> {
       print(jsonEncode(data));
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => Post(imageUrl: '', title: '', content: '',)),
+        MaterialPageRoute(
+          builder: (context) => Post(
+            imageUrl: imageUrl,
+            title: title,
+            content: content,
+          ),
+        ),
       );
     } catch (e) {
       print('에러');
@@ -277,7 +287,7 @@ class _PostAddState extends State<PostAdd> {
                         onPressed: () async {
                           print(titleController.text);
                           print(contentController.text);
-                          String imageUrl = "여기에 이미지 URL 입력";
+                          String imageUrl = "h";
                           Navigator.push(
                             context,
                             MaterialPageRoute(

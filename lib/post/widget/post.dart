@@ -24,6 +24,13 @@ class Post extends StatefulWidget {
 class _PostState extends State<Post> {
   int likeCount = 12;
   bool isLiked = false;
+  late List<PostCheck> posts;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchPosts();
+  }
 
   Future<void> postDelete(String feedId) async {
     Dio dio = Dio();
@@ -45,15 +52,10 @@ class _PostState extends State<Post> {
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-    fetchPosts();
-  }
 
-  Future<List<PostCheck>> fetchPosts() async {
+  Future<void> fetchPosts() async {
     Dio dio = Dio();
-    List<PostCheck> posts = [];
+    posts = [];
 
     try {
       final resp = await dio.get(
@@ -78,7 +80,7 @@ class _PostState extends State<Post> {
       throw Exception(e);
     }
 
-    return posts;
+    setState(() {});
   }
 
   @override
@@ -117,12 +119,11 @@ class _PostState extends State<Post> {
             ],
           ),
           Expanded(
-            child: FutureBuilder<List<PostCheck>>(
-              future: fetchPosts(),
-              builder: (context, index) {
-                  return ListView.builder(
+            child: ListView.builder(
                     padding: EdgeInsets.only(top: 4),
+                    itemCount: posts.length,
                     itemBuilder: (context, index) {
+                      final post = posts[index];
                       return InkWell(
                         onTap: () {
                           Navigator.push(
@@ -145,11 +146,15 @@ class _PostState extends State<Post> {
                                   SizedBox(width : 8),
                                   Text('서예린'),
                                   SizedBox(width: 190),
-                                  Icon(Icons.delete, color: Color(0xff2B8AFB),)
+                                  IconButton(onPressed: (){
+                                    setState(() {
+                                      posts.removeAt(index);
+                                    });
+                                  }, icon: Icon(Icons.delete, color: Color(0xff2B8AFB),))
                                 ],
                               ),
                               SizedBox(height: 9),
-                              Image.network(widget.imageUrl),
+                              Image.network(widget.imageUrl, fit: BoxFit.fill),
                               SizedBox(height: 2),
                               Row(
                                 children: [
@@ -170,7 +175,10 @@ class _PostState extends State<Post> {
                                       color: isLiked ? Color(0xff2B8AFB): null,
                                     ),
                                   ),
-                                  Icon(Icons.mode_comment_outlined, size: 24),
+                                  IconButton(
+                                      onPressed: (){
+                                    },icon: Icon(Icons.mode_comment_outlined, size : 24)
+                                  )
                                 ],
                               ),
                               Text(
@@ -187,8 +195,6 @@ class _PostState extends State<Post> {
                         ),
                       );
                     },
-                  );
-              }
             ),
             ),
         ],
