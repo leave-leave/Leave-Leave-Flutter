@@ -16,17 +16,20 @@ class PostAdd extends StatefulWidget {
 }
 
 class _PostAddState extends State<PostAdd> {
-  TextEditingController titleController = TextEditingController();
-  TextEditingController contentController = TextEditingController();
+  late String title;
+  late String content;
   late ImagePicker _imagePicker;
   XFile? _pickedImage;
   Image? _displayImage;
   bool _isImageUploaded = false;
+  String imageUrl = "http://$baseUrl";
 
   @override
   void initState() {
     super.initState();
     _imagePicker = ImagePicker();
+    title = '';
+    content = '';
   }
 
   Future<void> pickImage() async {
@@ -67,7 +70,7 @@ class _PostAddState extends State<PostAdd> {
       );
 
       String imageUrl = resp.data["url"];
-      postContent(titleController.text, contentController.text, imageUrl);
+      postContent(title, content, imageUrl);
       print(resp.statusCode);
     } catch (e) {
       print('에러');
@@ -100,9 +103,9 @@ class _PostAddState extends State<PostAdd> {
         context,
         MaterialPageRoute(
           builder: (context) => Post(
-            imageUrl: imageUrl,
-            title: title,
-            content: content,
+              title: title,
+              content: content,
+              imageUrl: imageUrl
           ),
         ),
       );
@@ -217,8 +220,7 @@ class _PostAddState extends State<PostAdd> {
                   Row(
                     children: [
                       SizedBox(width: 34),
-                      Icon(Icons.location_on,
-                          size: 32, color: Color(0xff699BF7)),
+                      Icon(Icons.location_on, size: 32, color: Color(0xff699BF7)),
                       SizedBox(width: 10),
                       Container(
                         width: 254,
@@ -228,7 +230,11 @@ class _PostAddState extends State<PostAdd> {
                           border: Border.all(color: Colors.grey),
                         ),
                         child: TextField(
-                          controller: titleController,
+                          onChanged: (value) {
+                            setState(() {
+                              title = value;
+                            });
+                          },
                           textAlign: TextAlign.start,
                           maxLines: 2,
                           decoration: InputDecoration(
@@ -261,7 +267,11 @@ class _PostAddState extends State<PostAdd> {
                           border: Border.all(color: Colors.grey),
                         ),
                         child: TextField(
-                          controller: contentController,
+                          onChanged: (value) {
+                            setState(() {
+                              content = value;
+                            });
+                          },
                           textAlign: TextAlign.start,
                           maxLines: null,
                           decoration: InputDecoration(
@@ -285,16 +295,13 @@ class _PostAddState extends State<PostAdd> {
                     children: [
                       ElevatedButton(
                         onPressed: () async {
-                          print(titleController.text);
-                          print(contentController.text);
-                          String imageUrl = "h";
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => Post(
-                                imageUrl: imageUrl,
-                                title: titleController.text,
-                                content: contentController.text,
+                                  title: title,
+                                  content: content,
+                                  imageUrl: imageUrl
                               ),
                             ),
                           );

@@ -6,15 +6,16 @@ import 'package:tteonatteona/secret.dart';
 import '../model/post_check.dart';
 
 class Post extends StatefulWidget {
-  final String imageUrl;
+
   final String title;
   final String content;
+  final String imageUrl;
 
   const Post({
     Key? key,
-    required this.imageUrl,
     required this.title,
     required this.content,
+    required this.imageUrl,
   }) : super(key: key);
 
   @override
@@ -118,85 +119,71 @@ class _PostState extends State<Post> {
               ),
             ],
           ),
-          Expanded(
-            child: ListView.builder(
-                    padding: EdgeInsets.only(top: 4),
-                    itemCount: posts.length,
-                    itemBuilder: (context, index) {
-                      final post = posts[index];
-                      return InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => PostDetails()),
-                          );
-                        },
-                        child: Container(
-                          height: 375,
-                          margin: EdgeInsets.only(left: 24, right: 24, bottom: 22),
-                          padding: EdgeInsets.only(left: 33, right: 33),
-                          color: Colors.white,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(height: 12),
-                              Row(
-                                children: [
-                                  Icon(Icons.account_circle_outlined, size: 30, color: Color(0xff2B8AFB),),
-                                  SizedBox(width : 8),
-                                  Text('서예린'),
-                                  SizedBox(width: 190),
-                                  IconButton(onPressed: (){
-                                    setState(() {
-                                      posts.removeAt(index);
-                                    });
-                                  }, icon: Icon(Icons.delete, color: Color(0xff2B8AFB),))
-                                ],
-                              ),
-                              SizedBox(height: 9),
-                              Image.network(widget.imageUrl, fit: BoxFit.fill),
-                              SizedBox(height: 2),
-                              Row(
-                                children: [
-                                  IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        isLiked = !isLiked;
-                                        if (isLiked) {
-                                          likeCount++;
-                                        } else {
-                                          likeCount--;
-                                        }
-                                      });
-                                    },
-                                    icon: Icon(
-                                      isLiked ? Icons.favorite : Icons.favorite_border,
-                                      size: 24,
-                                      color: isLiked ? Color(0xff2B8AFB): null,
-                                    ),
-                                  ),
-                                  IconButton(
-                                      onPressed: (){
-                                    },icon: Icon(Icons.mode_comment_outlined, size : 24)
-                                  )
-                                ],
-                              ),
-                              Text(
-                                widget.title,
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(height: 5),
-                              Text(widget.content),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
+          SizedBox(height: 14),
+          Container(
+            margin : EdgeInsets.only(left: 24),
+            width: 363,
+            height: 363,
+            decoration: BoxDecoration(
+              color: Colors.white
             ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(padding: EdgeInsets.only(left: 16, top: 12, bottom: 9),
+                  child : Row(
+                    children: [
+                      Icon(Icons.account_circle_outlined, size: 30, color: Color(0xff2B8AFB),),
+                      SizedBox(width: 8),
+                      Text('서예린', style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 14
+                      ),)
+                    ],
+                  ),
+                ),
+                if (widget.imageUrl.isNotEmpty)
+                  Image.network(
+                    widget.imageUrl,
+                    width: double.infinity,
+                    height: 230,
+                    fit: BoxFit.cover,
+                  ),
+                Row(
+                  children: [
+                    Padding(padding: EdgeInsets.only(left: 18),
+                      child: Row(
+                        children: [
+                          IconButton(onPressed: (){}, icon: Icon(Icons.favorite_border, size: 24,),),
+                          IconButton(onPressed: (){}, icon: Icon(Icons.mode_comment_outlined, size: 24,),),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 34),
+                  child: Text(
+                    widget.title,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 8),
+                Padding(
+                  padding: const EdgeInsets.only(left: 34),
+                  child: Text(
+                    widget.content,
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ],
             ),
+          )
         ],
       ),
     );
