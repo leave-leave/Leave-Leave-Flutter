@@ -5,14 +5,23 @@ import 'package:tteonatteona/secret.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PostDetails extends StatefulWidget {
-  const PostDetails({Key? key}) : super(key: key);
+  final String title;
+  final String content;
+  final String imageUrl;
+
+  const PostDetails({
+    Key? key,
+    required this.title,
+    required this.content,
+    required this.imageUrl,
+  }) : super(key: key);
 
   @override
   State<PostDetails> createState() => _PostDetailsState();
 }
 
 class _PostDetailsState extends State<PostDetails> {
-  int likeCount = 13;
+  int likeCount = 1;
   bool isLiked = false;
   TextEditingController commentController = TextEditingController();
   List<String> comments = [];
@@ -141,7 +150,7 @@ class _PostDetailsState extends State<PostDetails> {
                   children: [
                     SizedBox(width: 16),
                     Icon(
-                      Icons.account_circle,
+                      Icons.account_circle_outlined,
                       color: Color(0xff2B8AFB),
                     ),
                     SizedBox(width: 8),
@@ -158,13 +167,18 @@ class _PostDetailsState extends State<PostDetails> {
                 ),
                 SizedBox(height: 16),
                 Padding(
-                  padding: EdgeInsets.only(left: 34),
-                  child: Image.asset('assets/images/post.png'),
+                  padding: EdgeInsets.only(left: 34, right: 34),
+                  child: Image.network(
+                    widget.imageUrl,
+                    width: double.infinity,
+                    height: 230,
+                    fit: BoxFit.cover,
+                  ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    SizedBox(width: 30),
+                    SizedBox(width: 20),
                     IconButton(
                       onPressed: () {
                         setState(() {
@@ -181,7 +195,7 @@ class _PostDetailsState extends State<PostDetails> {
                           ? Icon(Icons.favorite, size: 24, color: Colors.blue)
                           : Icon(Icons.favorite_border, size: 24, color: Colors.blue),
                     ),
-                    Text(likeCount.toString()),
+                    Text(likeCount.toString(), style: TextStyle(fontSize: 16),),
                     IconButton(
                       onPressed: () {
                         setState(() {
@@ -198,16 +212,15 @@ class _PostDetailsState extends State<PostDetails> {
                 Padding(
                   padding: EdgeInsets.only(left: 36),
                   child: Text(
-                    '제목 : ㅁㄴㅇㄹ',
+                    widget.title,
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 36),
                   child: Text(
-                    'ㅇㄴㄹㄴㅁㅇㄹㄴㅇㄹㅇㄴ',
+                    widget.content,
                     style: TextStyle(
                       fontSize: 14,
-                      color: Colors.black,
                     ),
                   ),
                 ),
@@ -296,7 +309,7 @@ class _PostDetailsState extends State<PostDetails> {
                           ),
                           child: Row(
                             children: [
-                              Icon(Icons.account_circle, color: Color(0xff2B8AFB)),
+                              Icon(Icons.account_circle_outlined, color: Color(0xff2B8AFB)),
                               SizedBox(width: 10),
                               Expanded(
                                 child: Column(
@@ -327,6 +340,7 @@ class _PostDetailsState extends State<PostDetails> {
                                   });
                                 },
                                 icon: Icon(Icons.delete),
+                                padding: EdgeInsets.only(right: 41),
                               ),
                             ],
                           ),

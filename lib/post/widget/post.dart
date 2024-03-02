@@ -4,6 +4,7 @@ import 'package:tteonatteona/post/widget/post_details.dart';
 import 'package:dio/dio.dart';
 import 'package:tteonatteona/secret.dart';
 import '../model/post_check.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Post extends StatefulWidget {
 
@@ -23,7 +24,7 @@ class Post extends StatefulWidget {
 }
 
 class _PostState extends State<Post> {
-  int likeCount = 12;
+  int likeCount = 1;
   bool isLiked = false;
   late List<PostCheck> posts;
 
@@ -32,6 +33,12 @@ class _PostState extends State<Post> {
     super.initState();
     fetchPosts();
   }
+
+  Future<void> saveLikeStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isLiked', isLiked);
+  }
+
 
   Future<void> postDelete(String feedId) async {
     Dio dio = Dio();
@@ -120,68 +127,101 @@ class _PostState extends State<Post> {
             ],
           ),
           SizedBox(height: 14),
-          Container(
-            margin : EdgeInsets.only(left: 24),
-            width: 363,
-            height: 363,
-            decoration: BoxDecoration(
-              color: Colors.white
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(padding: EdgeInsets.only(left: 16, top: 12, bottom: 9),
-                  child : Row(
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) =>
+                    PostDetails(
+                      title : widget.title,
+                      content : widget.content,
+                      imageUrl : widget.imageUrl,
+                    )),
+              );
+            },
+            child: Container(
+              margin : EdgeInsets.only(left: 24),
+              width: 363,
+              height: 363,
+              decoration: BoxDecoration(
+                  color: Colors.white
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(padding: EdgeInsets.only(left: 16, top: 12, bottom: 9),
+                    child : Row(
+                      children: [
+                        Icon(Icons.account_circle_outlined, size: 30, color: Color(0xff2B8AFB),),
+                        SizedBox(width: 8),
+                        Text('서예린', style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14
+                        ),),
+                        SizedBox(width: 205),
+                        IconButton(onPressed: (){}, icon: Icon(Icons.delete, size: 24),)
+                      ],
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.only(left: 34, right: 34, bottom: 0),
+                    child: Column(
+                      children: [
+                        if (widget.imageUrl.isNotEmpty)
+                          Image.network(
+                            widget.imageUrl,
+                            width: double.infinity,
+                            height: 230,
+                            fit: BoxFit.cover,
+                          ),
+                      ],
+                    ),
+                  ),
+                  Row(
                     children: [
-                      Icon(Icons.account_circle_outlined, size: 30, color: Color(0xff2B8AFB),),
-                      SizedBox(width: 8),
-                      Text('서예린', style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 14
-                      ),)
+                      Padding(padding: EdgeInsets.only(left: 18),
+                        child: Row(
+                          children: [
+                            IconButton(onPressed: (){
+                              setState(() {
+                                isLiked = !isLiked;
+                                if (isLiked) {
+                                  likeCount++;
+                                } else {
+                                  likeCount--;
+                                }
+                                saveLikeStatus();
+                              });
+                            },icon: isLiked ? Icon(Icons.favorite, size: 24, color: Colors.blue)
+                                : Icon(Icons.favorite_border, size: 24,),),
+                            Text(likeCount.toString(), style: TextStyle(fontSize: 16),),
+                            IconButton(onPressed: (){}, icon: Icon(Icons.mode_comment_outlined, size: 24,),),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
-                ),
-                if (widget.imageUrl.isNotEmpty)
-                  Image.network(
-                    widget.imageUrl,
-                    width: double.infinity,
-                    height: 230,
-                    fit: BoxFit.cover,
-                  ),
-                Row(
-                  children: [
-                    Padding(padding: EdgeInsets.only(left: 18),
-                      child: Row(
-                        children: [
-                          IconButton(onPressed: (){}, icon: Icon(Icons.favorite_border, size: 24,),),
-                          IconButton(onPressed: (){}, icon: Icon(Icons.mode_comment_outlined, size: 24,),),
-                        ],
+                  Padding(
+                    padding: const EdgeInsets.only(left: 34),
+                    child: Text(
+                      widget.title,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 34),
-                  child: Text(
-                    widget.title,
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
+                  ),
+                  SizedBox(height: 8),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 34),
+                    child: Text(
+                      widget.content,
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: 8),
-                Padding(
-                  padding: const EdgeInsets.only(left: 34),
-                  child: Text(
-                    widget.content,
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           )
         ],
