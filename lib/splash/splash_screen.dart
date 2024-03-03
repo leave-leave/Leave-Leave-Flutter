@@ -32,7 +32,7 @@ class Screen extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Post(imageUrl: '', title: '', content: '')),
+                    MaterialPageRoute(builder: (context) => LoginScreen()),
                   );
                 },
                 child: Text(
