@@ -53,7 +53,7 @@ class _PostDetailsState extends State<PostDetails> {
 
   Future<void> saveComments() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setStringList('comments', comments); // 댓글 저장
+    await prefs.setStringList('comments', comments);
   }
 
   Future<void> saveLikeStatus() async {
@@ -161,7 +161,7 @@ class _PostDetailsState extends State<PostDetails> {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    SizedBox(width: 220),
+                    SizedBox(width: 230),
                     Icon(Icons.more_vert, size: 20, color: Color(0xff3F3D56))
                   ],
                 ),
@@ -213,6 +213,11 @@ class _PostDetailsState extends State<PostDetails> {
                   padding: EdgeInsets.only(left: 36),
                   child: Text(
                     widget.title,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.black,
+                      fontFamily: 'Noto Sans KR'
+                    ),
                   ),
                 ),
                 Padding(
@@ -221,6 +226,9 @@ class _PostDetailsState extends State<PostDetails> {
                     widget.content,
                     style: TextStyle(
                       fontSize: 14,
+                      color: Colors.black,
+                      fontFamily: 'Noto Sans KR',
+                      fontWeight: FontWeight.w500
                     ),
                   ),
                 ),

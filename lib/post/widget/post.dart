@@ -24,7 +24,7 @@ class Post extends StatefulWidget {
 }
 
 class _PostState extends State<Post> {
-  int likeCount = 1;
+  int likeCount = 13;
   bool isLiked = false;
   late List<PostCheck> posts;
 
@@ -142,9 +142,10 @@ class _PostState extends State<Post> {
             child: Container(
               margin : EdgeInsets.only(left: 24),
               width: 363,
-              height: 363,
+              height: 410,
               decoration: BoxDecoration(
-                  color: Colors.white
+                  color: Color(0xffECF3FF),
+                  //color : Colors.white
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -158,8 +159,6 @@ class _PostState extends State<Post> {
                             color: Colors.black,
                             fontSize: 14
                         ),),
-                        SizedBox(width: 205),
-                        IconButton(onPressed: (){}, icon: Icon(Icons.delete, size: 24),)
                       ],
                     ),
                   ),
@@ -169,9 +168,8 @@ class _PostState extends State<Post> {
                         if (widget.imageUrl.isNotEmpty)
                           Image.network(
                             widget.imageUrl,
-                            width: double.infinity,
+                            width: 296,
                             height: 230,
-                            fit: BoxFit.cover,
                           ),
                       ],
                     ),
@@ -210,7 +208,6 @@ class _PostState extends State<Post> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 8),
                   Padding(
                     padding: const EdgeInsets.only(left: 34),
                     child: Text(
