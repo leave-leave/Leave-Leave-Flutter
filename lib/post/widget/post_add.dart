@@ -22,7 +22,7 @@ class _PostAddState extends State<PostAdd> {
   XFile? _pickedImage;
   Image? _displayImage;
   bool _isImageUploaded = false;
-  String imageUrl = "https://leaveleave.s3.ap-northeast-2.amazonaws.com/";
+  String imageUrl = "https://leaveleave.s3.ap-northeast-2.amazonaws.com/5c2bde45-e90e-44d8-bbac-745f490d61f8";
 
   @override
   void initState() {

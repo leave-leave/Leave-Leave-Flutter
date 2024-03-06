@@ -1,19 +1,21 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:tteonatteona/mypage/model/travel_check.dart';
 import 'package:tteonatteona/post/widget/post.dart';
 import 'package:tteonatteona/travelplane/widget/travelplane.dart';
 import 'package:tteonatteona/mypage/model/user_model.dart';
-import 'package:dio/dio.dart';
 import 'package:tteonatteona/secret.dart';
 import 'package:tteonatteona/post/model/post_check.dart';
 import 'package:intl/intl.dart';
+import 'package:dio/dio.dart';
+import 'dart:convert';
 
 class MyPage extends StatefulWidget {
+
   final String title;
   final DateTime? startDate;
   final DateTime? endDate;
   final List<String> traveldetail;
+
 
   const MyPage({Key? key,
     required this.title,

@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:tteonatteona/post/widget/post_add.dart';
 import 'package:tteonatteona/post/widget/post_details.dart';
-import 'package:dio/dio.dart';
-import 'package:tteonatteona/secret.dart';
-import '../model/post_check.dart';
+import 'package:tteonatteona/post/model/post_check.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tteonatteona/secret.dart';
+import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
 
 class Post extends StatefulWidget {
 
@@ -24,7 +24,7 @@ class Post extends StatefulWidget {
 }
 
 class _PostState extends State<Post> {
-  int likeCount = 13;
+  int likeCount = 0;
   bool isLiked = false;
   late List<PostCheck> posts;
 
@@ -144,8 +144,7 @@ class _PostState extends State<Post> {
               width: 363,
               height: 410,
               decoration: BoxDecoration(
-                  color: Color(0xffECF3FF),
-                  //color : Colors.white
+                  color : Colors.white
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

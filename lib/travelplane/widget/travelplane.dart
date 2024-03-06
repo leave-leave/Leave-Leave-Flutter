@@ -181,7 +181,51 @@ class _TravelPlaneState extends State<TravelPlane> {
               ),
             ],
           ),
-          SizedBox(height: 15),
+          SizedBox(height: 24),
+          Row(
+            children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 35),
+                      child: Text(
+                        '여행 계획을',
+                        style: TextStyle(
+                          fontFamily: "Noto Sans KR",
+                          fontSize: 22,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 35),
+                      child: Text(
+                        '완료하실래요?',
+                        style: TextStyle(
+                          fontFamily: "Noto Sans KR",
+                          fontSize: 22,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 114),
+                  child: Image.asset('assets/images/airplane.png'),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 20),
           Container(
             width: 353,
             height: 537,
@@ -226,7 +270,7 @@ class _TravelPlaneState extends State<TravelPlane> {
                       hintText: '여행할 장소를 입력하세요',
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.symmetric(horizontal: 16),
-                      hintStyle: TextStyle(color: Color(0xffB0B7C3), fontSize: 14),
+                      hintStyle: TextStyle(color: Color(0xffB0B7C3), fontSize: 14, height: -0.4),
                     ),
                   ),
                 ),
@@ -362,47 +406,7 @@ class _TravelPlaneState extends State<TravelPlane> {
               ],
             ),
           ),
-          SizedBox(height: 24),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Padding(
-              padding: EdgeInsets.only(left: 298),
-              child: Image.asset('assets/images/airplane.png'),
-            ),
-          ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(left: 35),
-                  child: Text(
-                    '여행 계획을',
-                    style: TextStyle(
-                      fontFamily: "Noto Sans KR",
-                      fontSize: 22,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 35),
-                  child: Text(
-                    '완료하실래요?',
-                    style: TextStyle(
-                      fontFamily: "Noto Sans KR",
-                      fontSize: 22,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 15),
+          SizedBox(height: 57),
           Container(
             width: 353,
             height: 40,

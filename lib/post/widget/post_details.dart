@@ -21,7 +21,7 @@ class PostDetails extends StatefulWidget {
 }
 
 class _PostDetailsState extends State<PostDetails> {
-  int likeCount = 1;
+  int likeCount = 0;
   bool isLiked = false;
   TextEditingController commentController = TextEditingController();
   List<String> comments = [];
@@ -137,7 +137,7 @@ class _PostDetailsState extends State<PostDetails> {
               ),
             ],
           ),
-          SizedBox(height: 14),
+          SizedBox(height: 6),
           Container(
             height: 758,
             margin: EdgeInsets.only(left: 24, right: 24),
