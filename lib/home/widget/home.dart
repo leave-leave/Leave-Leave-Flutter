@@ -88,28 +88,36 @@ class _HomeState extends State<Home> {
                 child: Row(
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(left: 55),
+                      padding: EdgeInsets.only(left: 40),
                       child: Image.asset(
                         'assets/images/location.png',)
                     ),
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
-                        child: Text(
-                          //'대전광역시 유성구 장동'
-                          '현재 온도 : 18.9도',
+                    SizedBox(width: 10),
+                    Column(
+                      children: [
+                        SizedBox(height: 48),
+                        Text(
+                          '대전광역시 유성구 가정북로 76',
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
                             color: Colors.black,
                           ),
                         ),
-                      ),
-                    ),
+                        SizedBox(height: 6),
+                        Text(
+                          '현재 온도 : 0도',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ),
-        
               SizedBox(height: 23),
               Padding(
                 padding: EdgeInsets.only(left: 20),
@@ -174,18 +182,125 @@ class _ChatListState extends State<ChatList> {
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         padding: EdgeInsets.only(left: 20, right: 20),
-        itemCount: widget.showAllItems ? 15 : 3,
+        itemCount: widget.showAllItems ? 15 : 3, // 여기서 여행지 개수 조절
         itemBuilder: (context, index) {
-          return ChatItem(
-            lank: (index + 1).toString(),
-            travelName: '일본 오사카',
-            like: '1,456',
-          );
+          if (index == 0) {
+            return ChatItem(
+              lank: (index + 1).toString(),
+              travelName: '일본 오사카',
+              like: '3,456',
+            );
+          } else if (index == 1) {
+            return ChatItem(
+              lank: (index + 1).toString(),
+              travelName: '프랑스 파리',
+              like: '3,234',
+            );
+          }
+          else if (index == 2) {
+            return ChatItem(
+              lank: (index + 1).toString(),
+              travelName: '이탈리아 로마',
+              like: '2,624',
+            );
+          }
+          else if (index == 3) {
+            return ChatItem(
+              lank: (index + 1).toString(),
+              travelName: '태국 방콕',
+              like: '2,239',
+            );
+          }
+          else if (index == 4) {
+            return ChatItem(
+              lank: (index + 1).toString(),
+              travelName: '호주 시드니',
+              like: '2,134',
+            );
+          }
+          else if (index == 5) {
+            return ChatItem(
+              lank: (index + 1).toString(),
+              travelName: '체코 프라하',
+              like: '1,998',
+            );
+          }
+          else if (index == 6) {
+            return ChatItem(
+              lank: (index + 1).toString(),
+              travelName: '폴란드 크라쿠프',
+              like: '1,234',
+            );
+          }
+          else if (index == 7) {
+            return ChatItem(
+              lank: (index + 1).toString(),
+              travelName: '남아프리카 케이프타운',
+              like: '1,234',
+            );
+          }
+          else if (index == 8) {
+            return ChatItem(
+              lank: (index + 1).toString(),
+              travelName: '브라질 리우데자네이루',
+              like: '1,234',
+            );
+          }
+          else if (index == 9) {
+            return ChatItem(
+              lank: (index + 1).toString(),
+              travelName: '프랑스 파리',
+              like: '1,234',
+            );
+          }
+          else if (index == 10) {
+            return ChatItem(
+              lank: (index + 1).toString(),
+              travelName: '프랑스 파리',
+              like: '1,234',
+            );
+          }
+          else if (index == 11) {
+            return ChatItem(
+              lank: (index + 1).toString(),
+              travelName: '프랑스 파리',
+              like: '1,234',
+            );
+          }
+          else if (index == 12) {
+            return ChatItem(
+              lank: (index + 1).toString(),
+              travelName: '프랑스 파리',
+              like: '1,234',
+            );
+          }
+          else if (index == 13) {
+            return ChatItem(
+              lank: (index + 1).toString(),
+              travelName: '프랑스 파리',
+              like: '1,234',
+            );
+          }
+          else if (index == 14) {
+            return ChatItem(
+              lank: (index + 1).toString(),
+              travelName: '프랑스 파리',
+              like: '1,234',
+            );
+          }
+          else {
+            return ChatItem(
+              lank: (index + 1).toString(),
+              travelName: '미국 뉴욕',
+              like: '1,000',
+            );
+          }
         },
       ),
     );
   }
 }
+
 
 class ChatItem extends StatelessWidget {
   final String lank;
